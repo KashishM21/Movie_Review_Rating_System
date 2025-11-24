@@ -17,7 +17,7 @@ body {
     text-align: center;
     font-size: 3rem;
     margin-bottom: 50px;
-     color: #d68101;
+    color: #d68101;
     text-shadow: 2px 2px 5px #000;
 }
 
@@ -29,16 +29,16 @@ body {
 .genre-title {
     font-size: 2.2rem;
     margin-bottom: 25px;
-     color: #d68101;
+    color: #d68101;
     text-shadow: 1px 1px 1px #000;
-    padding-bottom: 5px;
 }
 
-/* Movie Row */
+/* Movie Row - Flexible Grid Layout */
 .movie-row {
     display: flex;
     flex-wrap: wrap;
-    gap: 25px;
+    gap: 20px;        /* space between cards */
+    justify-content: flex-start;
 }
 
 /* Movie Card */
@@ -47,32 +47,23 @@ body {
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
-    flex: 1 1 calc(20% - 25px);
-    min-width: 180px;
-    max-width: 220px;
-    transition: transform 0.3s, box-shadow 0.3s;
+    flex: 1 1 180px;      /* flexible width, min 180px */
+    max-width: 220px;     /* optional max width */
     text-align: center;
-}
-.movie-card img {
-    width: 100%;
-    height: auto; /* Let height adjust automatically */
-    max-height: 250px; /* Optional: prevent huge images */
-    object-fit: contain; /* Keep full image visible */
-    background-color: #000; /* Optional: black background if image aspect ratio doesn't fill */
+    transition: transform 0.3s, box-shadow 0.3s;
 }
 
+.movie-card img {
+    width: 100%;
+    height: 250px;      /* fixed height to keep all posters uniform */
+    object-fit: cover;  /* cover ensures image fills space */
+    background-color: #000;
+}
 
 .movie-card:hover {
     transform: scale(1.05);
     box-shadow: 0 12px 25px rgba(214, 129, 1, 0.822);
 }
-
-/* .movie-card img {
-    width: 100%;
-    height: 300px;
-    object-fit: cover;
-    border-bottom: 2px solid #d68101;
-} */
 
 .movie-card h3 {
     font-size: 1.2rem;
@@ -80,27 +71,35 @@ body {
     color: #d68101;
 }
 
-.movie-card .year {
+.movie-card .year,
+.movie-card .avg-rating {
     font-size: 0.95rem;
-    color: #bbb;
     margin-bottom: 10px;
+}
+
+.movie-card .year {
+    color: #bbb;
+}
+
+.movie-card .avg-rating {
+    color: #ffd700;
 }
 
 /* Responsive Adjustments */
 @media (max-width: 1024px) {
     .movie-card {
-        flex: 1 1 calc(33.33% - 20px);
+        flex: 1 1 150px;
     }
 }
 
 @media (max-width: 768px) {
     .movie-card {
-        flex: 1 1 calc(50% - 15px);
+        flex: 1 1 45%;      /* two per row on tablets */
     }
 }
 
 @media (max-width: 480px) {
     .movie-card {
-        flex: 1 1 100%;
+        flex: 1 1 100%;     /* full width on mobile */
     }
 }

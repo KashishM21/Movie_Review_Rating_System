@@ -1,107 +1,87 @@
 <?php
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
+
 include "../includes/db.php";
 include "../includes/session.php";
 include "../includes/header.php";
 include "../includes/filter-bar.php";
 
-$year_filter = isset($_GET['year']) ? $_GET['year'] : '';
-$genre_filter = isset($_GET['genre']) ? $_GET['genre'] : '';
-$rating_filter = isset($_GET['rating']) ? $_GET['rating'] : '';
-$popularity_filter = isset($_GET['popularity']) ? $_GET['popularity'] : '';
-$search_query = isset($_GET['search']) ? $_GET['search'] : '';
+// Get filters safely
+$year = $_GET['year'] ?? '';
+$genre = $_GET['genre'] ?? '';
+$rating = $_GET['rating'] ?? '';
+$popularity = $_GET['popularity'] ?? '';
+$search = $_GET['search'] ?? '';
 
-$query = "SELECT * FROM movie WHERE 1";
+// Build base query
+$query = "SELECT * FROM movie WHERE 1=1";
+$params = [];
+$types = "";
 
-if ($year_filter) {
-    $query .= " AND release_year = '$year_filter'";
+// Apply filters
+if ($year) {
+    $query .= " AND release_year = ?";
+    $params[] = $year;
+    $types .= "i";
 }
-if ($genre_filter) {
-    $query .= " AND genre = '$genre_filter'";
+if ($genre) {
+    $query .= " AND genre = ?";
+    $params[] = $genre;
+    $types .= "s";
 }
-if ($rating_filter) {
-    $query .= " AND rating >= '$rating_filter'";
+if ($rating) {
+    $query .= " AND avg_rating >= ?";
+    $params[] = $rating;
+    $types .= "d";
 }
-if ($popularity_filter) {
-    $query .= " AND popularity >= '$popularity_filter'";
+if ($popularity) {
+    $query .= " AND total_ratings >= ?";
+    $params[] = $popularity;
+    $types .= "i";
 }
-if ($search_query) {
-    $query .= " AND title LIKE '%$search_query%'";
+if ($search) {
+    $query .= " AND title LIKE ?";
+    $params[] = "%$search%";
+    $types .= "s";
 }
 
+// Order by avg_rating, release_year, id
+$query .= " ORDER BY avg_rating DESC, release_year DESC, id DESC";
 
-$query .= " ORDER BY genre, id DESC";
-$result = $mysqli->query($query);
-
-$genres = [];
-
-while ($row = $result->fetch_assoc()) {
-    $genres[$row['genre']][] = $row;
+// Prepare and execute
+$stmt = $mysqli->prepare($query);
+if ($params) {
+    $stmt->bind_param($types, ...$params);
 }
-?>
-<!-- 
-<!DOCTYPE html>
-<html lang="en">
+$stmt->execute();
+$result = $stmt->get_result();
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RateMyMovie</title>
-    <link rel="stylesheet" href="../assets/css/style.css">
-    <link rel="shortcut icon" href="../assets/images/ratemymovie.png" type="image/x-icon">
-</head>
+// Display movies
+if ($result->num_rows > 0) {
+    echo "<div class='movies-container'>";
+    while ($row = $result->fetch_assoc()) {
+        $posterPath = "../assets/images/uploads/" . htmlspecialchars($row['poster']);
+        echo "<div class='movie'>";
+        echo "<a href='../movie_link/movie_description.php?id={$row['id']}'>";
+        echo "<img src='{$posterPath}' alt='" . htmlspecialchars($row['title']) . "' style='width:150px;'><br>";
+        echo "</a>";
+        echo "<h3>" . htmlspecialchars($row['title']) . "</h3>";
+        echo "<p>Genre: " . htmlspecialchars($row['genre']) . "</p>";
+        echo "<p>Year: " . htmlspecialchars($row['release_year']) . "</p>";
+        echo "<p>Rating: " . (!empty($row['total_ratings']) ? "⭐ " . number_format($row['avg_rating'], 1) . " ({$row['total_ratings']} votes)" : "No ratings yet") . "</p>";
+        echo "</div>";
+    }
+    echo "</div>";
+} else {
+    echo "<p>No movies found.</p>";
+}
 
-<body>
-    <h1>Browse Movies</h1>
-
-    <form method="get" action="">
-        <label for="search">Search by Title:</label>
-        <input type="text" name="search" id="search" placeholder="Search by title" value="<?= htmlspecialchars($search_query) ?>">
-
-        <label for="year">Year:</label>
-        <input type="number" name="year" id="year" placeholder="Year" value="<?= htmlspecialchars($year_filter) ?>">
-
-        <label for="genre">Genre:</label>
-        <select name="genre" id="genre">
-            <option value="">Select Genre</option>
-            <option value="1" <?= $genre_filter == '1' ? 'selected' : '' ?>>Action</option>
-            <option value="2" <?= $genre_filter == '2' ? 'selected' : '' ?>>Drama</option>
-            <option value="3" <?= $genre_filter == '3' ? 'selected' : '' ?>>Comedy</option>
-            <option value="4" <?= $genre_filter == '4' ? 'selected' : '' ?>>Horror</option>
-        </select>
-
-        <label for="rating">Minimum Rating:</label>
-        <input type="number" name="rating" id="rating" min="1" max="10" step="0.1" value="<?= htmlspecialchars($rating_filter) ?>">
-
-        <label for="popularity">Minimum Popularity:</label>
-        <input type="number" name="popularity" id="popularity" min="0" max="100" value="<?= htmlspecialchars($popularity_filter) ?>">
-
-        <button type="submit">Apply Filters</button>
-    </form>
-
-    <h2>Movies</h2>
-
-    <?php foreach ($genres as $genre => $movies): ?>
-        <div class="genre-box">
-            <h3><?= htmlspecialchars($genre); ?></h3>
-
-            <?php foreach ($movies as $movie): ?>
-                <div class="movie-card">
-                    <img src="uploads/<?= $movie['poster'] ?>" alt="<?= $movie['title'] ?>">
-                    <h4><?= $movie['title'] ?></h4>
-                    <p><?= $movie['release_year'] ?> | Rating: <?= $movie['rating'] ?> | Popularity: <?= $movie['popularity'] ?></p>
-                </div>
-            <?php endforeach; ?>
-
-        </div>
-    <?php endforeach; ?>
-
-</body>
-
-</html> -->
-
-<?php
-include "../includes/footer.php";
+$stmt->close();
 $mysqli->close();
+
+include "../includes/footer.php";
 ?>
+<link rel="stylesheet" href="../assets/css/film_style.css">
+
+

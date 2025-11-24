@@ -20,7 +20,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->bind_param('sss', $name, $email, $password_hashed);
             $stmt->execute();
             $stmt->close();
-            // $success = "Registration successful. <a href='login.php'>Login here</a>";
             header("Location: login.php");
             exit();
         } catch (mysqli_sql_exception $e) {

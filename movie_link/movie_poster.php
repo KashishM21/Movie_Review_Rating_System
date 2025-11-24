@@ -1,5 +1,7 @@
 <?php
-include "includes/db.php"
+include "includes/db.php";
+error_reporting(E_ALL);
+ini_set("display_errors",1);
 ?>
 
 <!DOCTYPE html>
@@ -10,9 +12,6 @@ include "includes/db.php"
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RateMyMovie</title>
     <link rel="stylesheet" href="../project/assets/css/poster_style.css">
-    <!-- <link rel="shortcut icon" href="../assets/images/ratemymovie.png" type="image/x-icon"> -->
-
-
 </head>
 
 <body>
@@ -21,41 +20,50 @@ include "includes/db.php"
         <h1 class="page-title">Latest Movies</h1>
 
         <?php
-        // Get all unique genres
         $genres = $mysqli->query("SELECT DISTINCT genre FROM movie ORDER BY genre ASC");
 
         while ($g = $genres->fetch_assoc()) {
             $genre = $g['genre'];
 
-            // Fetch movies of this genre
-            $movies = $mysqli->query("SELECT * FROM movie WHERE genre='$genre' ORDER BY id DESC");
+            $movies = $mysqli->query("SELECT id, title, poster, release_year FROM movie WHERE genre='$genre' ORDER BY id DESC");
         ?>
-
             <div class="genre-block">
                 <h2 class="genre-title"><?php echo htmlspecialchars($genre); ?></h2>
 
-                <div class="movie-row">
-                    <?php while ($m = $movies->fetch_assoc()) { ?>
+                <div class="movie-row"> 
+                    <?php while ($m = $movies->fetch_assoc()) { 
+                        $stmt = $mysqli->prepare("SELECT AVG(rating) AS avg_rating, COUNT(*) AS total_ratings FROM reviews WHERE movie_id = ?");
+                        $stmt->bind_param("i", $m['id']);
+                        $stmt->execute();
+                        $ratingData = $stmt->get_result()->fetch_assoc();
 
+                        $avg = $ratingData['avg_rating'] ? number_format($ratingData['avg_rating'], 1) : 0;
+                        $total = $ratingData['total_ratings'];
+                    ?>
                         <div class="movie-card">
                             <a href="/project/movie_link/movie_description.php?id=<?php echo $m['id']; ?>">
                                 <img src="../project/assets/images/uploads/<?php echo $m['poster']; ?>" alt="Poster">
                             </a>
-
                             <h3><?php echo htmlspecialchars($m['title']); ?></h3>
-                            <p class="year"><?php echo $m['release_year']; ?></p>
+                           
+                            <p class="avg-rating">
+                                <?php 
+                                if ($total > 0) {
+                                    echo "⭐ $avg ($total ratings)";
+                                } else {
+                                    echo "⭐ No rating yet";
+                                }
+                                ?>
+                            </p>
                         </div>
-
                     <?php } ?>
-                </div>
-
+                </div> 
             </div>
-
-        <?php } ?>
+        <?php
+        }
+        ?>
 
     </section>
-
 </body>
 
 </html>
-
