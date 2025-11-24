@@ -1,0 +1,89 @@
+General Styles
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #1c1c1c;
+    color: #f1f1f1;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 600px;
+    margin: 50px auto;
+    background: linear-gradient(145deg, #2a2a2a, #1c1c1c);
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+}
+
+h2 {
+    text-align: center;
+    font-size: 2rem;
+    color: #d68101;
+    margin-bottom: 30px;
+}
+
+/* Form Elements */
+form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #ffb84d;
+}
+
+form input[type="text"],
+form input[type="number"],
+form input[type="file"],
+form select,
+form textarea {
+    width: 100%;
+    padding: 10px 12px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    border: 1px solid #555;
+    background-color: #2a2a2a;
+    color: #f1f1f1;
+    font-size: 1rem;
+}
+
+form input[type="text"]:focus,
+form input[type="number"]:focus,
+form select:focus,
+form textarea:focus,
+form input[type="file"]:focus {
+    outline: none;
+    border: 1px solid #d68101;
+    box-shadow: 0 0 8px #d68101;
+}
+
+textarea {
+    resize: vertical;
+}
+
+/* Button */
+button[type="submit"] {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background-color: #d68101;
+    color: #1c1c1c;
+    font-weight: bold;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+button[type="submit"]:hover {
+    background-color: #ffb84d;
+    transform: translateY(-2px);
+}
+
+/* Error Message */
+p {
+    text-align: center;
+    font-weight: bold;
+    color: #ff4c4c;
+    margin-bottom: 20px;
+}
