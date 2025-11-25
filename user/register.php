@@ -1,6 +1,7 @@
 <?php
-include "../includes/session.php";
 include "../includes/db.php";
+include "../includes/header.php";
+
 
 $error = '';
 $success = '';
@@ -40,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="../assets/css/form_style.css">
 </head>
 <body>
-    <div class="container">
+    <div class="form-container">
         <h2>Registration Form</h2>
 
         <?php if ($error): ?>

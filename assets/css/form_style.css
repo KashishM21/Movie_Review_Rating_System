@@ -5,33 +5,31 @@ body {
     padding: 0;
 }
 
-
-.container {
-    width: 90%;           
-    max-width: 450px;       
+.form-container {
+    width: 90%;
+    max-width: 450px;
     background: #fff;
-    padding: 25px 20px;     
+    padding: 25px 20px;
     margin: 50px auto;
     border-radius: 10px;
     box-sizing: border-box;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
-.container h2 {
+.form-container h2 {
     text-align: center;
     margin-bottom: 20px;
     color: #333;
 }
 
-
-.container label {
+.form-container label {
     font-weight: bold;
     color: #444;
 }
 
-.container input[type="text"],
-.container input[type="email"],
-.container input[type="password"] {
+.form-container input[type="text"],
+.form-container input[type="email"],
+.form-container input[type="password"] {
     width: 95%;
     padding: 10px;
     margin-top: 5px;
@@ -42,12 +40,12 @@ body {
     transition: 0.2s;
 }
 
-.container input:focus {
+.form-container input:focus {
     border-color: #ff9800;
     box-shadow: 0px 0px 5px rgba(255,152,0,0.5);
 }
 
-.container button {
+.form-container button {
     width: 100%;
     padding: 10px;
     background: #ff9800;
@@ -60,32 +58,34 @@ body {
     transition: 0.2s;
 }
 
-.container button:hover {
+.form-container button:hover {
     background: #e68a00;
 }
 
-.container p {
+.form-container p {
     text-align: center;
     margin-top: 15px;
     font-size: 17px;
+    color: black;
 }
 
-.container a {
+.form-container a {
     color: #ff9800;
     text-decoration: none;
     font-weight: bold;
 }
 
-.container a:hover {
+.form-container a:hover {
     text-decoration: underline;
 }
 
-@media screen and (max-width: 480px) {
-    .container {
-        padding: 20px 15px; 
+/* Responsive */
+/* @media screen and (max-width: 480px) {
+    .form-container {
+        padding: 20px 15px;
         margin: 30px auto;
     }
-    .container h2 {
+    .form-container h2 {
         font-size: 22px;
     }
-}
+} */

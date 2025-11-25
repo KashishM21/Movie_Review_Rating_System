@@ -1,3 +1,7 @@
+<?php
+include "../includes/header.php";
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Movie</title>
     <link rel="stylesheet" href="../assets/css/movie_form.css">
-<script src="../assets/js/script.js"></script>
+    <script src="../assets/js/script.js"></script>
 </head>
 
 <body>
@@ -14,7 +18,7 @@
         <p style="color:red; font-weight:bold;"><?= $message ?></p>
     <?php endif; ?>
 
-    <div class="container">
+    <div class="container2">
         <h2>Add Movie</h2>
 
         <form method="post" action="add_movie.php" enctype="multipart/form-data">
@@ -49,8 +53,19 @@
             <textarea name="description" rows="4" placeholder="Movie description"></textarea> <br><br>
 
             <label for="release_year">Release Year</label><br>
-            <input type="number" name="release_year" min="1900" max="2099" placeholder="2025">
+
+            <select name="release_year" id="release_year">
+                <option value="">Select Year</option>
+
+                <?php
+                for ($y = date("Y"); $y >= 1900; $y--) {
+                    echo "<option value='$y'>$y</option>";
+                }
+                ?>
+            </select>
+
             <br><br>
+
 
             <label>Poster Image</label>
             <input type="file" name="poster" accept="image/*" required> <br><br>
@@ -63,3 +78,7 @@
 </body>
 
 </html>
+<?php
+
+include "../includes/footer.php"
+?>

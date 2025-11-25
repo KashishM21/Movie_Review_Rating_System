@@ -12,14 +12,12 @@ if (isset($_POST['submit'])) {
     $description = trim($_POST['description']);
     $custom_genre = trim($_POST['custom_genre'] ?? '');
 
-    // Use custom genre if entered, otherwise selected genre
     if (!empty($custom_genre)) {
-        $genre = strtolower($custom_genre); // convert custom genre to lowercase
+        $genre = strtolower($custom_genre); 
     } else {
-        $genre = strtolower($genre); // convert selected genre to lowercase
+        $genre = strtolower($genre); 
     }
 
-    // Validate poster upload
     if (!isset($_FILES['poster']) || $_FILES['poster']['error'] !== UPLOAD_ERR_OK) {
         die("Poster upload failed!");
     }
@@ -33,7 +31,6 @@ if (isset($_POST['submit'])) {
         die("Only JPG, JPEG, PNG files are allowed!");
     }
 
-    // Upload poster
     $upload_dir = "../assets/images/uploads/";
     if (!is_dir($upload_dir)) {
         mkdir($upload_dir, 0777, true);
@@ -46,7 +43,6 @@ if (isset($_POST['submit'])) {
         die("Failed to save poster!");
     }
 
-    // Check if movie already exists
     $check = $mysqli->prepare("SELECT id FROM movie WHERE title = ? AND release_year = ?");
     $check->bind_param("ss", $title, $release_year);
     $check->execute();
@@ -56,7 +52,6 @@ if (isset($_POST['submit'])) {
         die("This movie already exists in the database!");
     }
 
-    // Insert movie
     $stmt = $mysqli->prepare("
         INSERT INTO movie (title, genre, release_year, description, poster)
         VALUES (?, ?, ?, ?, ?)

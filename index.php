@@ -1,7 +1,6 @@
 <?php
 error_reporting(E_ALL);
 ini_set("dislay_errors", 1);
-include "../project/includes/session.php";
 include "../project/includes/header.php";
 include "includes/db.php";
 

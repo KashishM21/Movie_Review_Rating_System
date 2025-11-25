@@ -1,4 +1,3 @@
-/* films.css */
 
 body {
     font-family: Arial, sans-serif;
@@ -17,16 +16,16 @@ body {
 }
 
 .movie {
-    background-color:  rgba(255, 255, 255, 0.15);
+    /* background-color:  rgba(255, 255, 255, 0.15); */
     border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    /* box-shadow: 0 4px 12px rgba(0,0,0,0.1); */
     padding: 10px;
     text-align: center;
-    transition: transform 0.3s, box-shadow 0.3s;
+    /* transition: transform 0.3s, box-shadow 0.3s; */
 }
 
 .movie:hover {
-    transform: translateY(-5px);
+    /* transform: translateY(-5px); */
     box-shadow: 0 8px 20px rgba(0,0,0,0.2);
 }
 

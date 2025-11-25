@@ -1,7 +1,7 @@
 <?php
 include "includes/db.php";
 error_reporting(E_ALL);
-ini_set("display_errors",1);
+ini_set("display_errors", 1);
 ?>
 
 <!DOCTYPE html>
@@ -16,6 +16,10 @@ ini_set("display_errors",1);
 
 <body>
     <section id="main-section">
+        <!-- <div class="right-search">
+        <span class="label">FIND A FILM</span>
+        <input type="text" id="searchInput" placeholder="Search..." onchange="applySearch()" ">
+    </div> -->
 
         <h1 class="page-title">Latest Movies</h1>
 
@@ -30,8 +34,8 @@ ini_set("display_errors",1);
             <div class="genre-block">
                 <h2 class="genre-title"><?php echo htmlspecialchars($genre); ?></h2>
 
-                <div class="movie-row"> 
-                    <?php while ($m = $movies->fetch_assoc()) { 
+                <div class="movie-row">
+                    <?php while ($m = $movies->fetch_assoc()) {
                         $stmt = $mysqli->prepare("SELECT AVG(rating) AS avg_rating, COUNT(*) AS total_ratings FROM reviews WHERE movie_id = ?");
                         $stmt->bind_param("i", $m['id']);
                         $stmt->execute();
@@ -39,15 +43,24 @@ ini_set("display_errors",1);
 
                         $avg = $ratingData['avg_rating'] ? number_format($ratingData['avg_rating'], 1) : 0;
                         $total = $ratingData['total_ratings'];
+
+                        $update = $mysqli->prepare("
+        UPDATE movie 
+        SET avg_rating = ?, total_ratings = ?
+        WHERE id = ?
+    ");
+                        $update->bind_param("dii", $avg, $total, $m['id']);
+                        $update->execute();
                     ?>
+
                         <div class="movie-card">
                             <a href="/project/movie_link/movie_description.php?id=<?php echo $m['id']; ?>">
                                 <img src="../project/assets/images/uploads/<?php echo $m['poster']; ?>" alt="Poster">
                             </a>
                             <h3><?php echo htmlspecialchars($m['title']); ?></h3>
-                           
+
                             <p class="avg-rating">
-                                <?php 
+                                <?php
                                 if ($total > 0) {
                                     echo "⭐ $avg ($total ratings)";
                                 } else {
@@ -57,7 +70,7 @@ ini_set("display_errors",1);
                             </p>
                         </div>
                     <?php } ?>
-                </div> 
+                </div>
             </div>
         <?php
         }

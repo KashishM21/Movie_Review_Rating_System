@@ -5,13 +5,11 @@
 }
 
 body {
-    
     font-family: Arial, sans-serif;
     background: #7c73658e;
     color: white;
 }
 
-/* Header */
 header {
     background: #000;
     border-bottom: 3px solid #d68101; 
@@ -27,18 +25,17 @@ header {
     padding: 12px 35px;
 }
 
-/* Logo */
 .logo img {
     width: 150px;
 }
-.logo p{
+
+.logo p {
     color: white;
     text-decoration: none;
-font-family: "Bebas Neue", sans-serif;
-
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 20px;
 }
 
-/* Navigation */
 .nav-bar {
     display: flex;
     align-items: center;
@@ -50,35 +47,17 @@ font-family: "Bebas Neue", sans-serif;
     color: white;
     font-size: 17px;
     font-weight: bold;
-    transition: 0.3s;
+    transition: color 0.3s;
 }
 
 .nav-item:hover {
     color: #d68101;
 }
 
-
 .right-bar {
     display: flex;
     gap: 20px;
 }
-
-/* .right-items {
-    color: white;
-    text-decoration: none;
-    font-size: 16px;
-    font-weight: bold;
-    padding: 8px 18px;
-    border-radius: 4px;
-    border: 1px solid #d68101;
-    transition: 0.3s;
-}
-
-.right-items:hover {
-    background: #d68101; 
-    color: #fff;
-} */
-/* profile */
 
 .profile-dropdown {
     position: relative;
@@ -103,6 +82,7 @@ font-family: "Bebas Neue", sans-serif;
     border-radius: 8px;
     top: 40px;
     min-width: 150px;
+    z-index: 100;
 }
 
 .dropdown a {
@@ -117,7 +97,6 @@ font-family: "Bebas Neue", sans-serif;
     color: black;
 }
 
-/* Show dropdown on hover */
 .profile-dropdown:hover .dropdown {
     display: block;
 }
@@ -127,7 +106,6 @@ section {
     min-height: 400px;
 }
 
-/* Search input */
 .search-container {
     text-align: center;
     margin-bottom: 20px;
@@ -140,7 +118,6 @@ section {
     border: 1px solid #ccc;
 }
 
-/* Film cards */
 .container1 {
     display: flex;
     flex-wrap: wrap;
@@ -148,39 +125,9 @@ section {
     justify-content: center;
 } 
 
-/* .container1 {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 20px;
-    height: 80px;
-    color: #eee;
-} */
-
-/* .film-card {
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 10px;
-    width: 150px;
-    text-align: center;
-    cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.film-card:hover {
-    transform: scale(1.05);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-}
-
-.film-card img {
-    width: 100%;
-    border-radius: 5px;
-} */
-
-/* Film details view */
 section img {
     width: 200px;
-height: 300px;
+    height: 300px;
     border-radius: 5px;
     margin-bottom: 10px;
 }
@@ -202,14 +149,12 @@ button {
     color: white;
     border-radius: 5px;
     font-weight: bold;
+    transition: background 0.3s;
 }
 
 button:hover {
-    background-color:#d68101;
+    background-color: #ffb347;
 }
-
-
-/* popup */
 
 .popup {
     display: none;         
@@ -227,24 +172,19 @@ button:hover {
     border-radius: 5px;
 }
 
-
-
-/* Footer */
 .footer {
     background: #161616;
     color: #eee;
-    padding: 40px  20px;
+    padding: 40px 20px;
     margin-top: 50px;
-        border-top: 4px solid #d68101; 
-margin-bottom: 0px;
+    border-top: 4px solid #d68101; 
 }
 
 .footer-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 30px;
-    padding: 0 40px;
-    
+    padding: 0 40px; 
 }
 
 .footer-section h3 {
@@ -258,7 +198,6 @@ margin-bottom: 0px;
     color: #ddd;
 }
 
-/* Quick Links */
 .footer-section li {
     list-style: none;
     margin-bottom: 8px;
@@ -274,7 +213,6 @@ margin-bottom: 0px;
     text-decoration: underline;
 }
 
-/* Social Links */
 .social-links a {
     display: block;
     margin-bottom: 8px;
@@ -286,7 +224,6 @@ margin-bottom: 0px;
     color: #fff;
 }
 
-/* Bottom copyright */
 .footer-bottom {
     text-align: center;
     padding-top: 15px;
@@ -297,4 +234,28 @@ margin-bottom: 0px;
 .footer-bottom p {
     font-size: 14px;
     color: #aaa;
+}
+
+.image {
+    height: 18px;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.right-search {
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    gap: 12px;
+    /* background-color: #444; */
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.right-search input {
+    padding: 8px 10px;
+    width: 220px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
 }
