@@ -5,22 +5,38 @@ ini_set("display_errors", 1);
 include "../includes/db.php";
 include "../includes/header.php";
 
-$movie_id = $_GET['id'] ?? 0;
-
-
+$movie_id = $_GET['id'] ?? null;
 $stmt = $mysqli->prepare("SELECT * FROM movie WHERE id = ?");
 $stmt->bind_param("i", $movie_id);
 $stmt->execute();
 $movie = $stmt->get_result()->fetch_assoc();
-$average_rating = $movie['avg_rating'] ? number_format($movie['avg_rating'], 1) : 0;
-$total_ratings = $movie['total_ratings'];
+$movie_id = $_GET['id'] ?? null;
 
+if (!$movie && strpos($movie_id, 'tt') === 0) { // IMDb ID starts with 'tt'
+    $apikey = "b04d0cf"; 
+    $url = $url = "http://www.omdbapi.com/?i=$movie_id&apikey=$apikey";
+    $response = file_get_contents($url);
+    $data = json_decode($response, true);
 
+    if ($data && $data['Response'] == "True") {
+        $movie = [
+            'title' => $data['Title'],
+            'genre' => $data['Genre'],
+            'release_year' => $data['Year'],
+            'description' => $data['Plot'],
+            'poster' => $data['Poster'],
+            'avg_rating' => 0,
+            'total_ratings' => 0
+        ];
+    }
+}
 if (!$movie) {
     echo "<h2 style='color:red;'>Movie not found.</h2>";
-    include "footer.php";
     exit;
 }
+
+$average_rating = $movie['avg_rating'] ? number_format($movie['avg_rating'], 1) : 0;
+$total_ratings = $movie['total_ratings'] ?? 0;
 
 $user_id = $_SESSION['user_id'] ?? null;
 $user_role = $_SESSION['role'] ?? "guest";
@@ -31,35 +47,46 @@ $user_role = $_SESSION['role'] ?? "guest";
 <head>
     <title><?php echo $movie['title']; ?> - Movie Details</title>
     <link rel="stylesheet" href="../assets/css/movie_description.css">
-   
+
+    <script src="../assets/js/star_script.js"></script>
 </head>
-<script src="../assets/js/star_script.js"></script>
 <body>
+    <?php
+// Determine poster URL
+$poster = $movie['poster'] ?? '';
+if (empty($poster) || $poster === 'N/A') {
+    $poster_url = "/project/assets/images/default-poster.png"; // fallback image
+} elseif (strpos($poster, 'http') === 0) {
+    $poster_url = $poster; // external API poster
+} else {
+    $poster_url = "/project/assets/images/uploads/" . $poster; // local uploaded poster
+}
+?>
 
     <section class="movie-details">
-        <img src="/project/assets/images/uploads/<?php echo $movie['poster']; ?>" class="movie-poster">
+<img src="<?= $poster_url ?>" class="movie-poster">
 
         <div class="movie-info">
             <h1><?php echo $movie['title']; ?></h1>
             <p><strong>Genre:</strong> <?php echo $movie['genre']; ?></p>
             <p><strong>Release Year:</strong> <?php echo $movie['release_year']; ?></p>
-            <p><strong>Average Rating:</strong> 
-<?php 
-if ($total_ratings > 0) {
-    echo "&#9733; $average_rating ($total_ratings ratings)";
-} else {
-    echo "&#9733; No ratings yet";
-}
-?>
+            <p><strong>Average Rating:</strong>
+                <?php
+                if ($total_ratings > 0) {
+                    echo "&#9733; $average_rating ($total_ratings ratings)";
+                } else {
+                    echo "&#9733; No ratings yet";
+                }
+                ?>
 
-</p>
+            </p>
 
             <p><?php echo $movie['description']; ?></p>
             <?php if ($user_role === 'admin'): ?>
                 <a href="../admin/edit_movie.php?id=<?php echo $movie_id; ?>" class="btn-edit">Edit Movie</a>
                 <a href="/project/admin/delete_movie.php?id=<?php echo $movie['id']; ?>"
-                   onclick="return confirm('Are you sure?');"
-                   class="btn-delete">Delete</a>
+                    onclick="return confirm('Are you sure?');"
+                    class="btn-delete">Delete</a>
             <?php endif; ?>
         </div>
     </section>
@@ -104,7 +131,9 @@ if ($total_ratings > 0) {
     ?>
 
     <?php if ($user_role === "guest"): ?>
-        <a href="/project/user/login.php"><p class='note'>Login to rate or review.</p></a>
+        <a href="/project/user/login.php">
+            <p class='note'>Login to rate or review.</p>
+        </a>
     <?php endif; ?>
 
     <hr>
@@ -133,5 +162,7 @@ if ($total_ratings > 0) {
         <?php endwhile; ?>
     </section>
 </body>
+
 </html>
 <?php include "../includes/footer.php"; ?>
+

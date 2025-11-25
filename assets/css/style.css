@@ -251,6 +251,7 @@ button:hover {
     color: white;
     padding: 5px;
     border-radius: 5px;
+    position: relative; /* Required for absolute positioning of results */
 }
 
 .right-search input {
@@ -258,4 +259,54 @@ button:hover {
     width: 220px;
     border-radius: 5px;
     border: 1px solid #ccc;
+}
+
+#apiResults {
+    position: absolute;
+    top: 100%; /* right below the input */
+    left: 0;
+    width: 100%;
+    max-height: 400px;
+    overflow-y: auto;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    z-index: 1000;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    display: none; /* Hidden initially */
+}
+
+/* Show the dropdown when populated */
+#apiResults ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Each result item */
+#apiResults li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+#apiResults li img {
+    width: 50px;
+    height: auto;
+    border-radius: 3px;
+}
+
+/* Hover effect */
+#apiResults li:hover {
+    background-color: #f0f0f0;
+}
+
+/* Optional: text styling */
+#apiResults li a {
+    text-decoration: none;
+    color: #333;
+    font-size: 14px;
 }

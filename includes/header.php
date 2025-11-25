@@ -1,5 +1,8 @@
 <?php
-include "../includes/session.php"
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+include "session.php";
 ?>
 
 <!DOCTYPE html>
@@ -12,6 +15,7 @@ include "../includes/session.php"
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="shortcut icon" href="../assets/images/ratemymovie.png" type="image/x-icon">
 </head>
+
 <body>
     <?php
     $currentPage = basename($_SERVER['PHP_SELF']);
@@ -57,9 +61,8 @@ include "../includes/session.php"
 
                     <?php if (isset($_SESSION['user_id'])): ?>
 
-                        <span class="nav-item">Welcome, <?= htmlspecialchars($_SESSION['name']); ?></span>
+                        <span>Welcome, <?= htmlspecialchars($_SESSION['name'] ?? 'User') ?></span> 
                         <a href="/project/user/logout.php" class="nav-item">Logout</a>
-
                     <?php else: ?>
 
                         <?php if ($currentPage !== 'login.php'): ?>
@@ -75,39 +78,47 @@ include "../includes/session.php"
             </div>
         </div>
     </header>
-</body>
 <script>
-    function searchAPI() {
-        let query = document.getElementById("apiSearch").value.trim();
-        let resultBox = document.getElementById("apiResults");
+function searchAPI() {
+    let query = document.getElementById("apiSearch").value.trim();
+    let resultBox = document.getElementById("apiResults");
 
-        if (query.length < 2) {
-            resultBox.innerHTML = "";
-            return;
-        }
-        fetch(`https://www.omdbapi.com/?s=${query}&apikey=b04d0cf`)
-            .then(response => response.json())
-            .then(data => {
-                if (data.Search) {
-                    let html = "<ul>";
-                    data.Search.forEach(movie => {
-                        html += `
-                        <li>
-                            <img src="${movie.Poster}" width="50">
-                            ${movie.Title} (${movie.Year}) (${movie.description})
-                        </li>`;
-                    });
-                    html += "</ul>";
-
-                    resultBox.innerHTML = html;
-                } else {
-                    resultBox.innerHTML = "<p>No movies found</p>";
-                }
-            })
-            .catch(err => {
-                resultBox.innerHTML = "<p>Error loading API</p>";
-            });
+    if (query.length < 2) {
+        resultBox.innerHTML = "";
+        resultBox.style.display = "none";
+        return;
     }
+
+    fetch(`https://www.omdbapi.com/?s=${encodeURIComponent(query)}&apikey=b04d0cf`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.Search) {
+                let html = "<ul>";
+                data.Search.forEach(movie => {
+                    html += `
+                        <li>
+                            <a href="/project/movie_link/movie_description.php?id=${movie.imdbID}">
+                                <img src="${movie.Poster !== 'N/A' ? movie.Poster : '/project/assets/images/default-poster.png'}" />
+                                ${movie.Title} (${movie.Year})
+                            </a>
+                        </li>`;
+                });
+                html += "</ul>";
+                resultBox.innerHTML = html;
+                resultBox.style.display = "block";
+            } else {
+                resultBox.innerHTML = "<p>No movies found</p>";
+                resultBox.style.display = "block";
+            }
+        })
+        .catch(err => {
+            resultBox.innerHTML = "<p>Error loading API</p>";
+            resultBox.style.display = "block";
+            console.error(err);
+        });
+}
 </script>
+
+</body>
 
 </html>
