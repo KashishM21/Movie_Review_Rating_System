@@ -2,8 +2,8 @@
 error_reporting(E_ALL);
 ini_set("dislay_errors", 1);
 include "../projcet/includes/session.php";
-include "../project/includes/header.php";
 include "includes/db.php";
+    include "../project/includes/header.php";
 
 ?>
 <!DOCTYPE html>
@@ -19,16 +19,17 @@ include "includes/db.php";
 
 </head>
 
-<body>
+<body class="body-box">
     <?php
+
     include "../project/movie_link/movie_poster.php";
     ?>
 
-   
 
 </body>
 
 </html>
+
+
 <?php
 include "includes/footer.php";
-?>

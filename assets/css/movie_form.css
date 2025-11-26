@@ -23,7 +23,6 @@ h2 {
     margin-bottom: 30px;
 }
 
-/* Form Elements */
 form label {
     display: block;
     margin-bottom: 8px;
@@ -60,7 +59,6 @@ textarea {
     resize: vertical;
 }
 
-/* Button */
 button[type="submit"] {
     display: block;
     width: 100%;
@@ -80,7 +78,6 @@ button[type="submit"]:hover {
     transform: translateY(-2px);
 }
 
-/* Error Message */
 p {
     text-align: center;
     font-weight: bold;

@@ -1,3 +1,7 @@
+<?php
+include "header.php";
+?>
+
 <style>
     .about-section {
   padding: 60px 20px;
@@ -51,24 +55,22 @@
 </style>
 
 <section id="about" class="about-section">
-  <div class="container">
+  <div class="about-container">
+   <div class="about-content">
     <h2 class="section-title">About RateMyMovie</h2>
-    
+  </div>
     <div class="about-content">
       
-      <!-- What is RateMyMovie -->
       <div class="about-item">
         <h3><span>🎬</span> What is RateMyMovie?</h3>
         <p>RateMyMovie is a social platform for movie lovers to discover, review, and rate films. Log movies you've watched, share your opinions, rate your favorites, and explore what others are watching. Maintain a watchlist and browse curated collections created by the community. It's your personal movie diary combined with a global community of film enthusiasts.</p>
       </div>
 
-      <!-- Why RateMyMovie -->
       <div class="about-item">
-        <h3><span>⭐</span> Why RateMyMovie?</h3>
+        <h3><span>&#11088;</span> Why RateMyMovie?</h3>
         <p>The name “RateMyMovie” reflects its core purpose: giving users a space to express opinions about films. Whether rating a film, writing a review, or tracking your viewing history, RateMyMovie lets you do it all in one simple and intuitive platform.</p>
       </div>
 
-      <!-- Membership -->
       <div class="about-item">
         <h3><span>📝</span> Membership</h3>
         <ul>
@@ -80,7 +82,6 @@
         </ul>
       </div>
 
-      <!-- How to Use -->
       <div class="about-item">
         <h3><span>💡</span> How to Use RateMyMovie</h3>
         <ul>
@@ -92,7 +93,6 @@
         </ul>
       </div>
 
-      <!-- FAQs -->
       <div class="about-item">
         <h3><span>❓</span> FAQs</h3>
         <ul>
@@ -104,7 +104,6 @@
         </ul>
       </div>
 
-      <!-- Community -->
       <div class="about-item">
         <h3><span>🌐</span> Connect with the Community</h3>
         <p>Join a global community of movie enthusiasts. Share your opinions, follow friends, explore new films, and enjoy a social, interactive movie experience on RateMyMovie.</p>
@@ -113,3 +112,6 @@
     </div>
   </div>
 </section>
+<?php
+include "footer";
+?>

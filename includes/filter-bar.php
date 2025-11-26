@@ -1,7 +1,9 @@
 <?php
-
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
+$selectedYear = $_GET['year'] ?? '';
+$selectedRating = $_GET['rating'] ?? '';
+$selectedGenre = $_GET['genre'] ?? '';
 ?>
 <link rel="stylesheet" href="../assets/css/filter-bar.css">
 <div class="top-filter-bar">
@@ -12,42 +14,42 @@ ini_set("display_errors", 1);
             <option value="">Select Year</option>
             <?php
             for ($y = date("Y"); $y >= 1900; $y--) {
-                echo "<option value='$y'>$y</option>";
+                $selected = ($selectedYear == $y) ? "selected" : "";
+                echo "<option value='$y' $selected>$y</option>";
             }
             ?>
         </select>
-
         <select name="rating" onchange="applyFilter()">
             <option value="">Rating</option>
-            <option value="5">5+</option>
-            <option value="4">4+</option>
-            <option value="3">3+</option>
+            <?php
+            for ($r = 3; $r <= 5; $r++) {
+                $selected = ($selectedRating == $r) ? "selected" : "";
+                echo "<option value='$r' $selected>$r+</option>";
+            }
+            ?>
         </select>
-
-
-        <input list="genreList" name="genre" placeholder="Genre" onchange="applyFilter()">
+        <input list="genreList" name="genre" placeholder="Genre" onchange="applyFilter()" value="<?= htmlspecialchars($selectedGenre) ?>">
 
         <datalist id="genreList">
-            <option value="Action">
-            <option value="Drama">
-            <option value="Comedy">
-            <option value="Horror">
-            <option value="Romance">
-            <option value="Thriller">
-            <option value="Sci-Fi">
+            <?php
+            $genres = ['Action', 'Drama', 'Comedy', 'Horror', 'Romance', 'Thriller', 'Sci-Fi'];
+            foreach ($genres as $genre) {
+                echo "<option value='$genre'>";
+            }
+            ?>
         </datalist>
     </div>
 </div>
 
 <script>
-    function applyFilter() {
-        const params = new URLSearchParams(window.location.search);
+function applyFilter() {
+    const params = new URLSearchParams(window.location.search);
 
-        document.querySelectorAll('.left-filters select, .left-filters input[type="number"]').forEach(el => {
-            if (el.value) params.set(el.name, el.value);
-            else params.delete(el.name);
-        });
+    document.querySelectorAll('.left-filters select, .left-filters input[list]').forEach(el => {
+        if (el.value) params.set(el.name, el.value);
+        else params.delete(el.name);
+    });
 
-        window.location.search = params.toString();
-    }
+    window.location.search = params.toString();
+}
 </script>

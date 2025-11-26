@@ -1,17 +1,23 @@
 <?php
-include "../includes/db.php";
-include "../includes/header.php";
+include "../includes/session.php";
 
+include "../includes/db.php";
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
+    
     $email = trim($_POST['email'] ?? '');
     $password = $_POST['password'] ?? '';
+    $confirm_password = $_POST['confirm_password'] ?? '';
+    
     if ($email === '' || $password === '') {
         $error = "Email and Password are required.";
-    } else {
-
+    } 
+    elseif ($password !== $confirm_password) {
+        $error = "Passwords do not match.";
+    }
+    else {
+        
         try {
             $stmt = $mysqli->prepare("SELECT id, name, password, role FROM users WHERE email = ?");
             $stmt->bind_param('s', $email);
@@ -37,12 +43,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             $stmt->close();
-
+            
         } catch (mysqli_sql_exception $e) {
             $error = "Database error: " . $e->getMessage();
         }
     }
 }
+include "../includes/header.php";
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -51,8 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="../assets/css/form_style.css">
-</head>
-<body>
+
   <div class="form-container">
 <h2>Login Form</h2>
 
@@ -67,6 +74,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <label>Password</label><br>
     <input type="password" name="password" placeholder="Enter your password"><br><br>
 
+    <label>Confirm Password</label><br>
+    <input type="password" name="confirm_password" placeholder="Confirm your password" required><br><br>
+
     <button type="submit">Login</button>
 </form>
 
@@ -74,4 +84,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   </div>
 </body>
 </html>
-
+<?php
+include "../includes/footer.php";
+?>

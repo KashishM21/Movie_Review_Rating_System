@@ -16,16 +16,12 @@ body {
 }
 
 .movie {
-    /* background-color:  rgba(255, 255, 255, 0.15); */
     border-radius: 10px;
-    /* box-shadow: 0 4px 12px rgba(0,0,0,0.1); */
     padding: 10px;
     text-align: center;
-    /* transition: transform 0.3s, box-shadow 0.3s; */
 }
 
 .movie:hover {
-    /* transform: translateY(-5px); */
     box-shadow: 0 8px 20px rgba(0,0,0,0.2);
 }
 
@@ -77,4 +73,29 @@ body {
     .movie p {
         font-size: 12px;
     }
+}
+
+.pagination-links {
+    text-align: center;
+    padding: 20px 0;
+}
+.page-link, .page-ellipsis {
+    margin: 0 5px;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    text-decoration: none;
+    color: #333;
+    display: inline-block;
+}
+.page-link.active {
+    background-color: #d68101;
+    color: white;
+    border-color: #d68101;
+}
+.page-link:hover:not(.active) {
+    background-color: #eee;
+}
+.page-ellipsis {
+    border: none;
+    padding: 8px 0;
 }

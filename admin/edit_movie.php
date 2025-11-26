@@ -42,8 +42,6 @@ if (!$movie) {
 
     <label>Poster:</label><br>
    <img id="posterPreview" src="../assets/images/uploads/<?= $movie['poster']; ?>" width="120">
-
-    <!-- <img src="../assets/images/uploads/<?= $movie['poster']; ?>" width="120"><br> -->
     <input type="file" name="poster" id="posterInput"><br><br>
     <small>Upload only if you want to change poster</small><br><br>
 

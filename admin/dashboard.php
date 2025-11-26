@@ -17,13 +17,11 @@ include "../includes/header.php";
     <h1 class="page-title">Latest Movies</h1>
 
     <?php
-    // Get all genres
     $genres = $mysqli->query("SELECT DISTINCT genre FROM movie ORDER BY genre ASC");
 
     while ($g = $genres->fetch_assoc()) {
         $genre = $g['genre'];
 
-        // Get movies for each genre
         $movies = $mysqli->query("SELECT * FROM movie WHERE genre='$genre' ORDER BY id DESC");
     ?>
 
@@ -35,7 +33,6 @@ include "../includes/header.php";
                 <?php while ($m = $movies->fetch_assoc()) { ?>
 
                     <?php
-                    // Get average rating from reviews
                     $stmt = $mysqli->prepare("SELECT AVG(rating) AS avg_rating, COUNT(*) AS total_ratings FROM reviews WHERE movie_id = ?");
                     $stmt->bind_param("i", $m['id']);
                     $stmt->execute();
@@ -55,9 +52,9 @@ include "../includes/header.php";
                         <p class="avg-rating">
                             <?php 
                             if ($total > 0) {
-                                echo "⭐ $avg ($total ratings)";
+                                echo "&#11088; $avg ($total ratings)";
                             } else {
-                                echo "⭐ No rating yet";
+                                echo "&#11088; No rating yet";
                             }
                             ?>
                         </p>

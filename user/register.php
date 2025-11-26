@@ -1,6 +1,6 @@
 <?php
 include "../includes/db.php";
-include "../includes/header.php";
+
 
 
 $error = '';
@@ -10,10 +10,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name     = trim($_POST['name'] ?? '');
     $email    = trim($_POST['email'] ?? '');
     $password = $_POST['password'] ?? '';
+  $confirm_password = $_POST['confirm_password'] ?? '';
 
-    if ($name === '' || $email === '' || $password === '') {
-        $error = "All fields are required.";
-    } else {
+    if ($name === '' || $email === '' || $password === '' || $confirm_password==='') {
+    $error = "All fields are required.";
+}
+elseif ($password !== $confirm_password) {
+    $error = "Passwords do not match.";
+}
+ else {
         $password_hashed = password_hash($password, PASSWORD_DEFAULT);
 
         try {
@@ -32,14 +37,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
+include "../includes/header.php";
 ?>
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <title>Register</title>
     <link rel="stylesheet" href="../assets/css/form_style.css">
 </head>
+
 <body>
     <div class="form-container">
         <h2>Registration Form</h2>
@@ -54,13 +62,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <form method="post">
             <label>Name</label><br>
-            <input type="text" name="name"><br><br>
+            <input type="text" name="name"placeholder="Enter your name"><br><br>
 
             <label>Email</label><br>
-            <input type="email" name="email"><br><br>
+            <input type="email" name="email" placeholder="Enter your Email"><br><br>
 
             <label>Password</label><br>
-            <input type="password" name="password" ><br><br>
+            <input type="password" name="password" placeholder="Enter your password"><br><br>
+
+            <label>Confirm Password</label><br>
+            <input type="password" name="confirm_password" placeholder="Confirm your password" required><br><br>
 
             <button type="submit">Register</button>
         </form>
@@ -68,4 +79,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <p>Already registered? <a href="login.php">Login here</a></p>
     </div>
 </body>
+
 </html>
+<?php
+include "../includes/footer.php";
+?>

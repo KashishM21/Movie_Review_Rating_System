@@ -15,12 +15,7 @@ ini_set("display_errors", 1);
 </head>
 
 <body>
-    <section id="main-section">
-        <!-- <div class="right-search">
-        <span class="label">FIND A FILM</span>
-        <input type="text" id="searchInput" placeholder="Search..." onchange="applySearch()" ">
-    </div> -->
-
+   <section id="main-section">
         <h1 class="page-title">Latest Movies</h1>
 
         <?php
@@ -28,12 +23,12 @@ ini_set("display_errors", 1);
 
         while ($g = $genres->fetch_assoc()) {
             $genre = $g['genre'];
-
-            $movies = $mysqli->query("SELECT id, title, poster, release_year FROM movie WHERE genre='$genre' ORDER BY id DESC");
+            $movies = $mysqli->query("SELECT id, title, poster, release_year FROM movie WHERE genre='$genre' ORDER BY id ASC");
         ?>
             <div class="genre-block">
-                <h2 class="genre-title"><?php echo htmlspecialchars($genre); ?></h2>
+                <h2 class="genre-title"><?= htmlspecialchars($genre) ?></h2>
 
+                <button class="prev-btn" onclick="scrollRow(this, -1)">&#10094;</button>
                 <div class="movie-row">
                     <?php while ($m = $movies->fetch_assoc()) {
                         $stmt = $mysqli->prepare("SELECT AVG(rating) AS avg_rating, COUNT(*) AS total_ratings FROM reviews WHERE movie_id = ?");
@@ -45,38 +40,43 @@ ini_set("display_errors", 1);
                         $total = $ratingData['total_ratings'];
 
                         $update = $mysqli->prepare("
-        UPDATE movie 
-        SET avg_rating = ?, total_ratings = ?
-        WHERE id = ?
-    ");
+                            UPDATE movie 
+                            SET avg_rating = ?, total_ratings = ?
+                            WHERE id = ?
+                        ");
                         $update->bind_param("dii", $avg, $total, $m['id']);
                         $update->execute();
                     ?>
-
                         <div class="movie-card">
-                            <a href="/project/movie_link/movie_description.php?id=<?php echo $m['id']; ?>">
-                                <img src="../project/assets/images/uploads/<?php echo $m['poster']; ?>" alt="Poster">
+                            <a href="/project/movie_link/movie_description.php?id=<?= $m['id'] ?>">
+                                <img src="../project/assets/images/uploads/<?= $m['poster'] ?>" alt="<?= htmlspecialchars($m['title']) ?>">
                             </a>
-                            <h3><?php echo htmlspecialchars($m['title']); ?></h3>
-
+                            <h3><?= htmlspecialchars($m['title']) ?></h3>
                             <p class="avg-rating">
-                                <?php
-                                if ($total > 0) {
-                                    echo "⭐ $avg ($total ratings)";
-                                } else {
-                                    echo "⭐ No rating yet";
-                                }
-                                ?>
+                                <?= $total > 0 ? "&#11088; $avg ($total ratings)" : "&#11088; No rating yet" ?>
                             </p>
                         </div>
                     <?php } ?>
                 </div>
+                <button class="next-btn" onclick="scrollRow(this, 1)">&#10095;</button>
             </div>
-        <?php
-        }
-        ?>
-
+        <?php } ?>
     </section>
+    <script>
+        function scrollRow(btn, direction) {
+            const genreBlock = btn.closest('.genre-block');
+            const row = genreBlock.querySelector('.movie-row');
+
+            const cardWidth = row.querySelector('.movie-card').offsetWidth;
+            const gap = 15;
+            const scrollAmount = (cardWidth + 15) * 3;
+
+            row.scrollBy({
+                left: direction * scrollAmount,
+                behavior: 'smooth'
+            });
+        }
+    </script>
 </body>
 
 </html>

@@ -1,55 +1,20 @@
 <?php
-ini_set('display_errors', 1);
 error_reporting(E_ALL);
+ini_set("display_errors", 1);
+session_start();
 
 include "../includes/db.php";
 include "../includes/header.php";
-include "../includes/filter-bar.php";
+include "../includes/filter-bar.php"; 
 
-$year = $_GET['year'] ?? '';
-$genre = $_GET['genre'] ?? '';
-$rating = $_GET['rating'] ?? '';
-$search = $_GET['search'] ?? '';
-
-$results_per_page = 15; 
-$page = $_GET['page'] ?? 1; 
+$results_per_page = 5; 
+$page = $_GET['page'] ?? 1;
 $offset = ($page - 1) * $results_per_page; 
 
-$query = "SELECT * FROM movie WHERE 1=1";
-$count_query = "SELECT COUNT(*) AS total FROM movie WHERE 1=1"; 
-$params = [];
-$types = "";
+$sort_column = 'created_at'; 
 
-if ($year) {
-    $query .= " AND release_year = ?";
-    $count_query .= " AND release_year = ?";
-    $params[] = $year;
-    $types .= "i";
-}
-if ($genre) {
-    $query .= " AND genre = ?";
-    $count_query .= " AND genre = ?";
-    $params[] = $genre;
-    $types .= "s";
-}
-if ($rating) {
-    $query .= " AND avg_rating >= ?";
-    $count_query .= " AND avg_rating >= ?";
-    $params[] = $rating;
-    $types .= "d";
-}
-
-if ($search) {
-    $query .= " AND title LIKE ?";
-    $count_query .= " AND title LIKE ?";
-    $params[] = "%$search%";
-    $types .= "s";
-}
-
+$count_query = "SELECT COUNT(*) AS total FROM movie";
 $stmt_count = $mysqli->prepare($count_query);
-if ($params) {
-    $stmt_count->bind_param($types, ...$params);
-}
 $stmt_count->execute();
 $count_result = $stmt_count->get_result();
 $total_rows = $count_result->fetch_assoc()['total'];
@@ -57,22 +22,17 @@ $stmt_count->close();
 
 $total_pages = ceil($total_rows / $results_per_page);
 
-$query .= " ORDER BY avg_rating DESC, release_year DESC, id DESC";
-$query .= " LIMIT ? OFFSET ?";
+$query = "SELECT * FROM movie ORDER BY {$sort_column} DESC, id DESC LIMIT ? OFFSET ?";
 
-$params[] = $results_per_page;
-$types .= "i";
-$params[] = $offset;
-$types .= "i";
+$params = [$results_per_page, $offset];
+$types = "ii";
 
 $stmt = $mysqli->prepare($query);
-
-if ($params) {
-    $stmt->bind_param($types, ...$params);
-}
-
+$stmt->bind_param($types, ...$params);
 $stmt->execute();
 $result = $stmt->get_result();
+
+echo "<h1 class='page-title' style='text-align: center;'>New Releases</h1>";
 
 if ($result->num_rows > 0) {
     echo "<div class='movies-container'>";
@@ -85,7 +45,7 @@ if ($result->num_rows > 0) {
         echo "<h3>" . htmlspecialchars($row['title']) . "</h3>";
         echo "<p>Genre: " . htmlspecialchars($row['genre']) . "</p>";
         echo "<p>Year: " . htmlspecialchars($row['release_year']) . "</p>";
-        echo "<p>Rating: " . (!empty($row['total_ratings']) ? "&#11088; " . number_format($row['avg_rating'], 1) . " ({$row['total_ratings']} Rating)" : "No ratings yet") . "</p>";
+        echo "<p>Rating: " . (!empty($row['total_ratings']) ? "⭐ " . number_format($row['avg_rating'], 1) . " ({$row['total_ratings']} Rating)" : "No ratings yet") . "</p>";
         echo "</div>";
     }
     echo "</div>";
@@ -140,4 +100,3 @@ $mysqli->close();
 include "../includes/footer.php";
 ?>
 <link rel="stylesheet" href="../assets/css/film_style.css">
-

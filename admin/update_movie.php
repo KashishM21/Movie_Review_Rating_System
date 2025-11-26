@@ -68,7 +68,7 @@ document.getElementById('posterInput').addEventListener('change', function (even
     const preview = document.getElementById('posterPreview');
 
     if (file) {
-        preview.src = URL.createObjectURL(file); // Show new poster instantly
+        preview.src = URL.createObjectURL(file);
     }
 });
 </script>
