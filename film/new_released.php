@@ -22,8 +22,7 @@ $stmt_count->close();
 
 $total_pages = ceil($total_rows / $results_per_page);
 
-$query = "SELECT * FROM movie ORDER BY {$sort_column} DESC, id DESC LIMIT ? OFFSET ?";
-
+$query = "SELECT * FROM movie ORDER BY release_year DESC, {$sort_column} DESC  LIMIT ? OFFSET ?";
 $params = [$results_per_page, $offset];
 $types = "ii";
 

@@ -5,9 +5,9 @@ include "header.php";
 <style>
     .about-section {
   padding: 60px 20px;
-  background-color: #f9f9f9;
+  background-color: #d4d4d4ff;
   font-family: 'Arial', sans-serif;
-  color: #333;
+  color: #000000ff;
 }
 
 .section-title {
@@ -15,7 +15,7 @@ include "header.php";
   font-size: 36px;
   margin-bottom: 40px;
   font-weight: bold;
-  color: #222;
+  color:  #fcac00ff;
 }
 
 .about-content {
@@ -25,6 +25,7 @@ include "header.php";
 
 .about-item {
   margin-bottom: 40px;
+  
 }
 
 .about-item h3 {
@@ -33,11 +34,12 @@ include "header.php";
   display: flex;
   align-items: center;
   gap: 10px;
-  color: #444;
+  color: #fcac00ff;
 }
 
 .about-item p {
   font-size: 16px;
+  font-weight: 100;
   line-height: 1.7;
 }
 
@@ -113,5 +115,5 @@ include "header.php";
   </div>
 </section>
 <?php
-include "footer";
+include "../includes/footer.php";
 ?>

@@ -60,16 +60,27 @@ $total_pages = ceil($total_rows / $results_per_page);
 $query .= " ORDER BY avg_rating DESC, release_year DESC, id DESC";
 $query .= " LIMIT ? OFFSET ?";
 
-$params[] = $results_per_page;
-$types .= "i";
-$params[] = $offset;
-$types .= "i";
-
+$limit = $results_per_page;
+$offsetVal = $offset;
 $stmt = $mysqli->prepare($query);
 
 if ($params) {
-    $stmt->bind_param($types, ...$params);
+    $bind_types = $types . "ii";
+    $bind_values = array_merge($params, [$limit, $offsetVal]);
+
+    $bind_names = array_merge([$bind_types], $bind_values);
+
+    $refs = [];
+    foreach ($bind_names as $key => $value) {
+        $refs[$key] = &$bind_names[$key];
+    }
+    call_user_func_array([$stmt, 'bind_param'], $refs);
+} else {
+    $types_for_limit = "ii";
+    call_user_func_array([$stmt, 'bind_param'], [&$types_for_limit, &$limit, &$offsetVal]);
 }
+
+
 
 $stmt->execute();
 $result = $stmt->get_result();

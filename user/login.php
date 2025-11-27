@@ -1,89 +1,105 @@
 <?php
-include "../includes/session.php";
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 
-include "../includes/db.php";
+include "../includes/session.php"; 
+include "../includes/db.php";      
+
 $error = '';
+$success = '';
+$redirectUrl = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    
     $email = trim($_POST['email'] ?? '');
     $password = $_POST['password'] ?? '';
-    $confirm_password = $_POST['confirm_password'] ?? '';
-    
+
     if ($email === '' || $password === '') {
         $error = "Email and Password are required.";
-    } 
-    elseif ($password !== $confirm_password) {
-        $error = "Passwords do not match.";
-    }
-    else {
-        
+    } else {
         try {
             $stmt = $mysqli->prepare("SELECT id, name, password, role FROM users WHERE email = ?");
+            if (!$stmt) {
+                throw new Exception("Prepare failed: " . $mysqli->error);
+            }
+
             $stmt->bind_param('s', $email);
-            $stmt->execute();
-            $stmt->bind_result($user_id, $user_name, $hashed_password, $role);
-            if ($stmt->fetch()) {
-                if (password_verify($password, $hashed_password)) {
+            if (!$stmt->execute()) {
+                throw new Exception("Execute failed: " . $stmt->error);
+            }
+            $stmt->store_result();
+
+            if ($stmt->num_rows === 0) {
+                $error = "Invalid email or password.";
+            } else {
+                $stmt->bind_result($user_id, $user_name, $hashed_password, $role);
+                $stmt->fetch();
+                if (empty($hashed_password)) {
+                    $error = "Login failed: password hash missing (contact admin).";
+                } elseif (password_verify($password, $hashed_password)) {
                     $_SESSION['user_id'] = $user_id;
                     $_SESSION['name'] = $user_name;
-                    $_SESSION['role']=$role;
-                    if($role==='admin'){
-                        header("Location:../admin/dashboard.php");
-                    }
-                    else{
-                        header("Location:../index.php");
-                    }
-                    exit;
+                    $_SESSION['role'] = $role;
+
+                    $success = "Login successful!";
+                    $redirectUrl = ($role === 'admin') ? "../admin/dashboard.php" : "../index.php";
                 } else {
                     $error = "Invalid email or password.";
                 }
-            } else {
-                $error = "Invalid email or password.";
             }
-
             $stmt->close();
-            
-        } catch (mysqli_sql_exception $e) {
+
+        } catch (Exception $e) {
             $error = "Database error: " . $e->getMessage();
         }
     }
 }
-include "../includes/header.php";
 
+include "../includes/header.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="stylesheet" href="../assets/css/form_style.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Login</title>
+<link rel="stylesheet" href="../assets/css/form_style.css">
 
-  <div class="form-container">
-<h2>Login Form</h2>
+<style>
+    /* --- FULL PAGE FLEX LAYOUT (Center form + footer bottom) --- */
 
-<?php if ($error): ?>
-    <p style="color:red;"><?= $error ?></p>
-<?php endif; ?>
+</style>
 
-<form method="post">
-    <label>Email</label><br>
-    <input type="email" name="email" placeholder="Enter your email"><br><br>
+</head>
+<body>
 
-    <label>Password</label><br>
-    <input type="password" name="password" placeholder="Enter your password"><br><br>
+<div class="page-content">
+    <div class="form-container">
+        <?php if (!empty($error)): ?>
+            <script> alert(<?= json_encode($error) ?>); </script>
+        <?php elseif (!empty($success)): ?>
+            <script>
+                alert(<?= json_encode($success) ?>);
+                window.location.href = <?= json_encode($redirectUrl) ?>;
+            </script>
+        <?php endif; ?>
 
-    <label>Confirm Password</label><br>
-    <input type="password" name="confirm_password" placeholder="Confirm your password" required><br><br>
+        <h2>Login Form</h2>
 
-    <button type="submit">Login</button>
-</form>
+        <form method="post" action="">
+            <label>Email</label><br>
+            <input type="email" name="email" placeholder="Enter your email" required><br><br>
 
-<p>Not registered? <a href="register.php">Register here</a></p>
-  </div>
+            <label>Password</label><br>
+            <input type="password" name="password" placeholder="Enter your password" required><br><br>
+
+            <button type="submit">Login</button>
+        </form>
+
+        <p>Not registered? <a href="register.php">Register here</a></p>
+    </div>
+</div>
+
+<?php include "../includes/footer.php"; ?>
+
 </body>
 </html>
-<?php
-include "../includes/footer.php";
-?>

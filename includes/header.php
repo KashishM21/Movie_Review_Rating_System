@@ -30,10 +30,10 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                         Film
                     </a>
                     <a href="/project/film/new_released.php"
-                        class="nav-item <?= $currentPage == 'new_released.php' ? 'active' : '' ?>">
+                        class="nav-item contact-link<?= $currentPage == 'new_released.php' ? 'active' : '' ?>">
                     New Release
                     </a>
-                    <a href="#contact" class="nav-item ">Contact</a>
+                    <a href="#contact" class="nav-item contact-link">Contact</a>
                     <a href="/project/admin/movie.php" class="nav-item ">Add Movies</a>
                 <?php
                 else: ?>
@@ -42,12 +42,12 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                         class="nav-item <?= $currentPage == 'films.php' ? 'active' : '' ?>">
                         Film
                     </a>
-                     <a href="/project/film/new_release.php"
-                        class="nav-item <?= $currentPage == 'new_release.php' ? 'active' : '' ?>">
+                     <a href="/project/film/new_released.php"
+                        class="nav-item contact-link<?= $currentPage == 'new_released.php' ? 'active' : '' ?>">
                     New Release
                     </a>
-                    <a href="#contact" class="nav-item ">Contact</a>
-                    <a href="#follow" class="nav-item ">Follow</a>
+                    <a href="#contact" class="nav-item contact-link ">Contact</a>
+                    <a href="#follow" class="nav-item contact-link">Follow</a>
                 <?php endif; ?>
                 <div class="right-search">
                     <input type="text" id="apiSearch" placeholder="Search movie Online…" onkeyup="searchAPI()">
@@ -95,7 +95,17 @@ $currentPage = basename($_SERVER['PHP_SELF']);
             if (!e.target.closest(".profile-container")) {
                 dropdown.style.display = "none";
             }
+            
         });
+         document.addEventListener("click", (e) => {
+        const searchBox = document.getElementById("apiSearch");
+        const resultsBox = document.getElementById("apiResults");
+
+        // If click is outside search box AND results dropdown
+        if (!e.target.closest("#apiSearch") && !e.target.closest("#apiResults")) {
+            resultsBox.style.display = "none";
+        }
+    });
     });
 
     function searchAPI() {

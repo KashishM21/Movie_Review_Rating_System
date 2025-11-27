@@ -8,12 +8,12 @@ body {
     font-family: Arial, sans-serif;
     background: #7c73658e;
     color: white;
-    
+
 }
 
 header {
     background: #000;
-    border-bottom: 3px solid #d68101; 
+    border-bottom: 3px solid #d68101;
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -75,7 +75,7 @@ header {
 }
 
 .dropdown {
-    display: none; 
+    display: none;
     position: absolute;
     background: #222;
     border: 1px solid orange;
@@ -124,7 +124,7 @@ section {
     flex-wrap: wrap;
     gap: 20px;
     justify-content: center;
-} 
+}
 
 section img {
     width: 200px;
@@ -158,11 +158,13 @@ button:hover {
 }
 
 .popup {
-    display: none;         
+    display: none;
     position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0,0,0,0.5);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
     justify-content: center;
     align-items: center;
 }
@@ -174,7 +176,8 @@ button:hover {
 }
 
 .footer {
-      position: absolute;
+    /* position: absolute; */
+    margin-top: auto;
     bottom: 0;
     left: 0;
     width: 100%;
@@ -186,10 +189,11 @@ button:hover {
 }
 
 .footer-container {
+
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 30px;
-    padding: 0 40px; 
+    padding: 0 40px;
 }
 
 .footer-section h3 {
@@ -199,13 +203,15 @@ button:hover {
 
 .footer-section p {
     font-size: 15px;
+    margin-bottom: 7px;
+
     line-height: 1.6;
     color: #ddd;
 }
 
 .footer-section li {
     list-style: none;
-    margin-bottom: 8px;
+    margin-bottom: 15px;
 }
 
 .footer-section a {
@@ -220,7 +226,7 @@ button:hover {
 
 .social-links a {
     display: block;
-    margin-bottom: 8px;
+    margin-bottom: 15px;
     text-decoration: none;
     color: #ccc;
 }
@@ -239,6 +245,8 @@ button:hover {
 .footer-bottom p {
     font-size: 14px;
     color: #aaa;
+    margin-bottom: 15px;
+
 }
 
 .image {
@@ -250,12 +258,12 @@ button:hover {
 .right-search {
     display: flex;
     align-items: center;
-    justify-content: center; 
+    justify-content: center;
     gap: 12px;
     color: white;
     padding: 5px;
     border-radius: 5px;
-    position: relative; 
+    position: relative;
 }
 
 .right-search input {
@@ -267,7 +275,7 @@ button:hover {
 
 #apiResults {
     position: absolute;
-    top: 100%; 
+    top: 100%;
     left: 0;
     width: 100%;
     max-height: 400px;
@@ -276,8 +284,8 @@ button:hover {
     border: 1px solid #ccc;
     border-radius: 5px;
     z-index: 1000;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    display: none; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: none;
 }
 
 #apiResults ul {
@@ -349,17 +357,8 @@ button:hover {
 .profile-dropdown .dropdown-item:hover {
     background: #f0f0f0;
 }
-
-
-Report: 26/11/2025
-~Kashish
-
-.Added "Confirm Password" functionality on the Registration and Login pages.
-.Added "Home" link in the Footer.
-.Created a "New Release" page and linked it in the Header and Footer.
-.Added a carousel in each genre for scrolling.
-.Implemented pagination on the Films and New Release pages.
-.Added Profile icon in the Header with dropdown scripting.
-
- 
- 
+/* #contact:target{
+    border: 2px solid #ffcc00;
+    background-color: rgba(255, 255, 0, 0.1);
+    border-radius: 8px;
+} */

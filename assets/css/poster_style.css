@@ -7,14 +7,14 @@ body {
 
 #main-section {
     max-height: auto;
-    margin: 10 auto;
+      margin: 0px auto;
     padding: 0 10rem;
 }
 
 .page-title {
     text-align: center;
-    font-size: 3rem;
-    margin-bottom: 50px;
+       font-size: 4rem;
+    margin: 27px 21px;
     color: #d68101;
     text-shadow: 2px 2px 5px #000;
 }
@@ -25,9 +25,8 @@ body {
 }
 
 .genre-title {
-    margin-bottom: 15px;
     padding-bottom: 20px;
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     color: #fff;
 }
 
