@@ -1,3 +1,4 @@
+
 body {
     background: #111;
     color: #fff;
@@ -248,8 +249,7 @@ body {
 
 .review-box strong {
     font-size: 18px;
-    color: #ffd000;
-}
+color: #f6a31a;}
 
 .review-box p {
     margin: 10px 0;
@@ -275,5 +275,3 @@ body {
 .star:hover ~ .star {
     color: gold;
 }
-
-

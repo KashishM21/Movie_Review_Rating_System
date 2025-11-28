@@ -1,12 +1,14 @@
 <link rel="stylesheet" href="../assets/css/style.css">
 <footer>
     <div class="footer">
+        <div class="footer-container">
         <div class="footer-section">
             <div id="about">
                 <a href="/project/includes/about.php">
                     <h3>About </h3>
                 </a>
             </div>
+        </div>
         </div>
         <div class="footer-container">
             <div class="footer-section">
@@ -32,7 +34,7 @@
                     <h3>Contact Us </h3>
                     </a>
 
-                    <p><a href="https://mail.google.com/mail/?view=cm&fs=1&to=support@ratemymovie.com" target="_blank"><img src="/project/assets/images/thriller/mail.png" alt="logo" class="image">support@ratemymovie.com</a></p
+                    <p><a href="https://mail.google.com/mail/?view=cm&fs=1&to=support@ratemymovie.com" target="_blank"><img src="/project/assets/images/thriller/mail.png" alt="logo" class="image">support@ratemymovie.com</a></p>
                     <p><img src="/project/assets/images/thriller/phone.png" alt="logo" class="image">Phone: +91 74048 49229</p>
                     <p><img src="/project/assets/images/thriller/map-marker.png" alt="logo" class="image">Address: Mohali,Punjab,India</p>
                 </div>

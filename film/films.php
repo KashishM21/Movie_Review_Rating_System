@@ -57,8 +57,8 @@ $stmt_count->close();
 
 $total_pages = ceil($total_rows / $results_per_page);
 
-$query .= " ORDER BY avg_rating DESC, release_year DESC, id DESC";
-$query .= " LIMIT ? OFFSET ?";
+$query .= " ORDER BY avg_rating DESC, release_year DESC, id DESC LIMIT ? OFFSET ?";
+
 
 $limit = $results_per_page;
 $offsetVal = $offset;
@@ -152,3 +152,6 @@ include "../includes/footer.php";
 ?>
 <link rel="stylesheet" href="../assets/css/film_style.css">
 
+
+
+                                                                                                                       

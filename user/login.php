@@ -63,25 +63,28 @@ include "../includes/header.php";
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Login</title>
 <link rel="stylesheet" href="../assets/css/form_style.css">
-
-<style>
-    /* --- FULL PAGE FLEX LAYOUT (Center form + footer bottom) --- */
-
-</style>
-
 </head>
+
 <body>
 
 <div class="page-content">
     <div class="form-container">
         <?php if (!empty($error)): ?>
-            <script> alert(<?= json_encode($error) ?>); </script>
-        <?php elseif (!empty($success)): ?>
-            <script>
-                alert(<?= json_encode($success) ?>);
-                window.location.href = <?= json_encode($redirectUrl) ?>;
-            </script>
-        <?php endif; ?>
+    <div class="flash-message" style="background-color:red; color:white; padding:10px; margin-bottom:15px;">
+        <?= htmlspecialchars($error) ?>
+    </div>
+<?php elseif (!empty($success)): ?>
+    <div class="flash-message" style="background-color:green; color:white; padding:10px; margin-bottom:15px;">
+        <?= htmlspecialchars($success) ?>
+    </div>
+
+    <script>
+        setTimeout(() => {
+            window.location.href = <?= json_encode($redirectUrl) ?>;
+        },);
+    </script>
+<?php endif; ?>
+
 
         <h2>Login Form</h2>
 

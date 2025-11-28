@@ -5,38 +5,86 @@ session_start();
 
 include "../includes/db.php";
 include "../includes/header.php";
-include "../includes/filter-bar.php"; 
+include "../includes/filter-bar.php";
 
-$results_per_page = 5; 
+$year   = $_GET['year'] ?? '';
+$genre  = $_GET['genre'] ?? '';
+$rating = $_GET['rating'] ?? '';
+$search = $_GET['search'] ?? '';
+
+$results_per_page = 15;
 $page = $_GET['page'] ?? 1;
-$offset = ($page - 1) * $results_per_page; 
+$offset = ($page - 1) * $results_per_page;
 
-$sort_column = 'created_at'; 
+$where = [];
+$params = [];
+$types = "";
 
-$count_query = "SELECT COUNT(*) AS total FROM movie";
+if (!empty($year)) {
+    $where[] = "release_year = ?";
+    $params[] = $year;
+    $types .= "i";
+}
+
+if (!empty($rating)) {
+    $where[] = "avg_rating >= ?";
+    $params[] = $rating;
+    $types .= "i";
+}
+
+if (!empty($genre)) {
+    $where[] = "genre LIKE ?";
+    $params[] = "%$genre%";
+    $types .= "s";
+}
+
+if (!empty($search)) {
+    $where[] = "title LIKE ?";
+    $params[] = "%$search%";
+    $types .= "s";
+}
+$where_sql = "";
+if (count($where) > 0) {
+    $where_sql = "WHERE " . implode(" AND ", $where);
+}
+
+$count_query = "SELECT COUNT(*) AS total FROM movie $where_sql";
 $stmt_count = $mysqli->prepare($count_query);
+
+if ($types) {
+    $stmt_count->bind_param($types, ...$params);
+}
+
 $stmt_count->execute();
-$count_result = $stmt_count->get_result();
-$total_rows = $count_result->fetch_assoc()['total'];
+$total_rows = $stmt_count->get_result()->fetch_assoc()['total'];
 $stmt_count->close();
 
 $total_pages = ceil($total_rows / $results_per_page);
+$query = "SELECT * FROM movie $where_sql 
+          ORDER BY release_year DESC, created_at DESC 
+          LIMIT ? OFFSET ?";
 
-$query = "SELECT * FROM movie ORDER BY release_year DESC, {$sort_column} DESC  LIMIT ? OFFSET ?";
-$params = [$results_per_page, $offset];
-$types = "ii";
+$params2 = $params;
+$types2 = $types;
+
+$params2[] = $results_per_page;
+$params2[] = $offset;
+$types2 .= "ii";
 
 $stmt = $mysqli->prepare($query);
-$stmt->bind_param($types, ...$params);
+$stmt->bind_param($types2, ...$params2);
 $stmt->execute();
 $result = $stmt->get_result();
 
-echo "<h1 class='page-title' style='text-align: center;'>New Releases</h1>";
+echo "<h1 class='page-title' style='text-align:center;'>New Releases</h1>";
+
 
 if ($result->num_rows > 0) {
     echo "<div class='movies-container'>";
+
     while ($row = $result->fetch_assoc()) {
         $posterPath = "../assets/images/uploads/" . htmlspecialchars($row['poster']);
+
         echo "<div class='movie'>";
         echo "<a href='../movie_link/movie_description.php?id={$row['id']}'>";
         echo "<img src='{$posterPath}' alt='" . htmlspecialchars($row['title']) . "' style='width:150px;'><br>";
@@ -44,19 +92,26 @@ if ($result->num_rows > 0) {
         echo "<h3>" . htmlspecialchars($row['title']) . "</h3>";
         echo "<p>Genre: " . htmlspecialchars($row['genre']) . "</p>";
         echo "<p>Year: " . htmlspecialchars($row['release_year']) . "</p>";
-        echo "<p>Rating: " . (!empty($row['total_ratings']) ? "⭐ " . number_format($row['avg_rating'], 1) . " ({$row['total_ratings']} Rating)" : "No ratings yet") . "</p>";
+
+        if (!empty($row['total_ratings'])) {
+            echo "<p>Rating: ⭐ " . number_format($row['avg_rating'], 1) . " ({$row['total_ratings']} Ratings)</p>";
+        } else {
+            echo "<p>No ratings yet</p>";
+        }
+
         echo "</div>";
     }
+
     echo "</div>";
 
     echo "<div class='pagination-links'>";
-    
+
     function build_pagination_link($page_num) {
         $params = $_GET;
         $params['page'] = $page_num;
         return '?' . http_build_query($params);
     }
-    
+
     if ($page > 1) {
         echo "<a href='" . build_pagination_link($page - 1) . "' class='page-link'>&laquo; Previous</a>";
     }
@@ -66,31 +121,28 @@ if ($result->num_rows > 0) {
 
     if ($start_page > 1) {
         echo "<a href='" . build_pagination_link(1) . "' class='page-link'>1</a>";
-        if ($start_page > 2) {
-            echo "<span class='page-ellipsis'>...</span>";
-        }
+        if ($start_page > 2) echo "<span class='page-ellipsis'>...</span>";
     }
 
     for ($i = $start_page; $i <= $end_page; $i++) {
-        $active_class = ($i == $page) ? 'active' : '';
-        echo "<a href='" . build_pagination_link($i) . "' class='page-link {$active_class}'>{$i}</a>";
+        $active = ($i == $page) ? 'active' : '';
+        echo "<a href='" . build_pagination_link($i) . "' class='page-link $active'>$i</a>";
     }
 
     if ($end_page < $total_pages) {
-        if ($end_page < $total_pages - 1) {
+        if ($end_page < $total_pages - 1)
             echo "<span class='page-ellipsis'>...</span>";
-        }
         echo "<a href='" . build_pagination_link($total_pages) . "' class='page-link'>{$total_pages}</a>";
     }
 
     if ($page < $total_pages) {
         echo "<a href='" . build_pagination_link($page + 1) . "' class='page-link'>Next &raquo;</a>";
     }
-    
+
     echo "</div>";
-    
+
 } else {
-    echo "<p>No movies found.</p>";
+    echo "<p style='text-align:center;'>No movies found.</p>";
 }
 
 $stmt->close();
@@ -98,4 +150,5 @@ $mysqli->close();
 
 include "../includes/footer.php";
 ?>
+
 <link rel="stylesheet" href="../assets/css/film_style.css">

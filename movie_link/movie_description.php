@@ -82,7 +82,7 @@ $user_role = $_SESSION['role'] ?? "guest";
 
                 <p><strong>Release Year:</strong> <?php echo $movie['release_year']; ?></p>
             <?php endif; ?>
-            
+
             <?php if (!empty($movie['director'])): ?>
 
                 <p><strong>Director:</strong> <?php echo $movie['director']; ?></p>
@@ -150,14 +150,14 @@ $user_role = $_SESSION['role'] ?? "guest";
         endif;
     }
     ?>
-   <?php if ($user_role === "guest"): ?>
-    <div class="login-box">
-        <p>You must login to rate & review</p>
-        <a href="/project/user/login.php" class="login-btn">Login Now</a>
-    </div>
-<?php endif; ?>
+    <?php if ($user_role === "guest"): ?>
+        <div class="login-box">
+            <p>You must login to rate & review</p>
+            <a href="/project/user/login.php" class="login-btn">Login Now</a>
+        </div>
+    <?php endif; ?>
 
-    
+
     <?php if (!$is_api_movie): ?>
 
         <section class="reviews">
@@ -189,9 +189,8 @@ $user_role = $_SESSION['role'] ?? "guest";
 <?php include "../includes/footer.php"; ?>
 <script>
     fetch(`https://www.omdbapi.com/?i=${movie.imdbID}&apikey=b04d0cf`)
-  .then(res => res.json())
-  .then(data => {
-    console.log(data.imdbRating); 
-  });
-
+        .then(res => res.json())
+        .then(data => {
+            console.log(data.imdbRating);
+        });
 </script>

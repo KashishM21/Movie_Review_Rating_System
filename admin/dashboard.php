@@ -1,6 +1,8 @@
 <?php
 include "../includes/db.php";
 include "../includes/header.php";
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
 ?>
 
 <!DOCTYPE html>
@@ -11,6 +13,7 @@ include "../includes/header.php";
     <title>Admin - Latest Movies</title>
     <link rel="stylesheet" href="../assets/css/poster_style.css">
 </head>
+
 <body>
 
 <section id="main-section">
@@ -28,10 +31,9 @@ include "../includes/header.php";
         <div class="genre-block">
             <h2 class="genre-title"><?php echo htmlspecialchars($genre); ?></h2>
 
+            <button class="prev-btn" onclick="scrollRow(this, -1)">&#10094;</button>
             <div class="movie-row">
-
                 <?php while ($m = $movies->fetch_assoc()) { ?>
-
                     <?php
                     $stmt = $mysqli->prepare("SELECT AVG(rating) AS avg_rating, COUNT(*) AS total_ratings FROM reviews WHERE movie_id = ?");
                     $stmt->bind_param("i", $m['id']);
@@ -41,7 +43,6 @@ include "../includes/header.php";
                     $avg = $ratingData['avg_rating'] ? number_format($ratingData['avg_rating'], 1) : 0;
                     $total = $ratingData['total_ratings'];
                     ?>
-
                     <div class="movie-card">
                         <a href="../movie_link/movie_description.php?id=<?php echo $m['id']; ?>">
                             <img src="../assets/images/uploads/<?php echo $m['poster']; ?>" alt="Poster">
@@ -63,11 +64,29 @@ include "../includes/header.php";
                 <?php } ?>
 
             </div>
+
+            <button class="next-btn" onclick="scrollRow(this, 1)">&#10095;</button>
+
         </div>
 
     <?php } ?>
 
 </section>
+
+<script>
+    function scrollRow(btn, direction) {
+        const genreBlock = btn.closest('.genre-block');
+        const row = genreBlock.querySelector('.movie-row');
+
+        const cardWidth = row.querySelector('.movie-card').offsetWidth;
+        const scrollAmount = (cardWidth + 15) * 3;
+
+        row.scrollBy({
+            left: direction * scrollAmount,
+            behavior: 'smooth'
+        });
+    }
+</script>
 
 </body>
 </html>

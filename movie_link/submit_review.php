@@ -16,7 +16,25 @@ $movie_id = $_POST['movie_id'] ?? null;
 $rating = $_POST['rating'] ?? null;
 $review = trim($_POST['review'] ?? '');
 $user_id = $_SESSION['user_id'];
+$bad_words = ["fuck", "shit", "bitch", "bastard", "nude", "porn"];
 
+// $lower_review = strtolower($review);
+
+// foreach ($bad_words as $word) {
+//     if (strpos($lower_review, $word) !== false) {
+//         $_SESSION['error'] = "Your review contains inappropriate words. Please write respectfully.";
+//         header("Location: ../movie_link/movie_description.php?id=" . $movie_id);
+//         exit();
+//     }
+// }
+// Regex-based advanced bad word filter
+$pattern = "/(f[\W_]*u[\W_]*c[\W_]*k|s[\W_]*h[\W_]*i[\W_]*t|b[\W_]*i[\W_]*t[\W_]*c[\W_]*h|asshole|bastard|nude|sex|porn|d[\W_]*i[\W_]*c[\W_]*k|p[\W_]*u[\W_]*s[\W_]*s[\W_]*y)/i";
+
+if (preg_match($pattern, $review)) {
+    $_SESSION['error'] = "Your review contains inappropriate content.";
+    header("Location: ../movie_link/movie_description.php?id=" . $movie_id);
+    exit();
+}
 
 if (!$movie_id || !$rating || $review === '') {
     $_SESSION['error'] = "All fields are required.";

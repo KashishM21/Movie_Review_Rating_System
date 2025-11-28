@@ -1,16 +1,18 @@
 <?php
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
+
 $selectedYear = $_GET['year'] ?? '';
 $selectedRating = $_GET['rating'] ?? '';
 $selectedGenre = $_GET['genre'] ?? '';
 ?>
 <link rel="stylesheet" href="../assets/css/filter-bar.css">
+
 <div class="top-filter-bar">
     <div class="left-filters">
         <span class="label">BROWSE BY</span>
 
-        <select name="year" onchange="applyFilter()">
+        <select name="year">
             <option value="">Select Year</option>
             <?php
             for ($y = date("Y"); $y >= 1900; $y--) {
@@ -19,7 +21,8 @@ $selectedGenre = $_GET['genre'] ?? '';
             }
             ?>
         </select>
-        <select name="rating" onchange="applyFilter()">
+
+        <select name="rating">
             <option value="">Rating</option>
             <?php
             for ($r = 3; $r <= 5; $r++) {
@@ -28,7 +31,8 @@ $selectedGenre = $_GET['genre'] ?? '';
             }
             ?>
         </select>
-        <input list="genreList" name="genre" placeholder="Genre" onchange="applyFilter()" value="<?= htmlspecialchars($selectedGenre) ?>">
+
+        <input list="genreList" name="genre" placeholder="Genre" value="<?= htmlspecialchars($selectedGenre) ?>">
 
         <datalist id="genreList">
             <?php
@@ -38,16 +42,21 @@ $selectedGenre = $_GET['genre'] ?? '';
             }
             ?>
         </datalist>
+
+        <!-- 🔍 Search Button -->
+        <button class="search-btn" onclick="applyFilter()">Search</button>
+
     </div>
 </div>
 
 <script>
 function applyFilter() {
-    const params = new URLSearchParams(window.location.search);
+    const params = new URLSearchParams();
 
     document.querySelectorAll('.left-filters select, .left-filters input[list]').forEach(el => {
-        if (el.value) params.set(el.name, el.value);
-        else params.delete(el.name);
+        if (el.value.trim() !== "") {
+            params.set(el.name, el.value.trim());
+        }
     });
 
     window.location.search = params.toString();

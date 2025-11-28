@@ -22,31 +22,22 @@ $currentPage = basename($_SERVER['PHP_SELF']);
         </div>
         <div class="head">
             <div class="nav-bar">
-                <?php
-                if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
-                    <a href="/project/index.php" class="nav-item">Home</a>
-                    <a href="/project/film/films.php"
+                <a href=# class="nav-item">Home</a>
+                <a href="/project/film/films.php"
                         class="nav-item <?= $currentPage == 'films.php' ? 'active' : '' ?>">
                         Film
                     </a>
-                    <a href="/project/film/new_released.php"
-                        class="nav-item contact-link<?= $currentPage == 'new_released.php' ? 'active' : '' ?>">
-                    New Release
-                    </a>
-                    <a href="#contact" class="nav-item contact-link">Contact</a>
-                    <a href="/project/admin/movie.php" class="nav-item ">Add Movies</a>
-                <?php
-                else: ?>
-                    <a href="/project/index.php" class="nav-item">Home</a>
-                    <a href="/project/film/films.php"
-                        class="nav-item <?= $currentPage == 'films.php' ? 'active' : '' ?>">
-                        Film
-                    </a>
+
                      <a href="/project/film/new_released.php"
                         class="nav-item contact-link<?= $currentPage == 'new_released.php' ? 'active' : '' ?>">
                     New Release
                     </a>
-                    <a href="#contact" class="nav-item contact-link ">Contact</a>
+                     <a href="#contact" class="nav-item contact-link ">Contact</a>
+                <?php
+                if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+                    <a href="/project/admin/movie.php" class="nav-item ">Add Movies</a>
+                <?php
+                else: ?>
                     <a href="#follow" class="nav-item contact-link">Follow</a>
                 <?php endif; ?>
                 <div class="right-search">
@@ -58,7 +49,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
         <div class="head">
             <div class="right-items">
                 <div class="profile-container">
-                    <img src="/project/assets/images/thriller/user.png"
+                    <img src="/project/assets/images/thriller/user-dropdown2.png"
                         alt="profile"
                         class="header-image profile-toggle">
 
@@ -101,7 +92,6 @@ $currentPage = basename($_SERVER['PHP_SELF']);
         const searchBox = document.getElementById("apiSearch");
         const resultsBox = document.getElementById("apiResults");
 
-        // If click is outside search box AND results dropdown
         if (!e.target.closest("#apiSearch") && !e.target.closest("#apiResults")) {
             resultsBox.style.display = "none";
         }
@@ -147,3 +137,4 @@ $currentPage = basename($_SERVER['PHP_SELF']);
             });
     }
 </script>
+

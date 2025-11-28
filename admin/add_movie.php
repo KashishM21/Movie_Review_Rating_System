@@ -7,8 +7,8 @@ $message = "";
 if (isset($_POST['submit'])) {
 
     $title = trim($_POST['title']);
-    $genre = $_POST['genre'];
     $release_year = $_POST['release_year'];
+    $genre = $_POST['genre'];
     $description = trim($_POST['description']);
     $custom_genre = trim($_POST['custom_genre'] ?? '');
 

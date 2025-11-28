@@ -19,8 +19,6 @@ $stmt->execute();
 $movie = $stmt->get_result()->fetch_assoc();
 
 if ($movie) {
-
-
     $del = $mysqli->prepare("DELETE FROM movie WHERE id = ?");
     $del->bind_param("i", $movie_id);
     $del->execute();  
