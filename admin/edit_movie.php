@@ -42,10 +42,25 @@ if (!$movie) {
 
     <label>Poster:</label><br>
    <img id="posterPreview" src="../assets/images/uploads/<?= $movie['poster']; ?>" width="120">
-    <input type="file" name="poster" id="posterInput"><br><br>
+    <input type="file" name="poster" id="posterInput"  onchange="previewPoster(event)"><br><br>
     <small>Upload only if you want to change poster</small><br><br>
 
     <button type="submit">Update Movie</button>
 </form>
+    <script>
+function previewPoster(event) {
+    const input = event.target;
+    const preview = document.getElementById('posterPreview');
 
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            preview.src = e.target.result; 
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+</script>
+
+    
 <?php include "../includes/footer.php"; ?>

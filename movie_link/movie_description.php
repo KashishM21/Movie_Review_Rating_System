@@ -25,8 +25,13 @@ if (!$movie && strpos($movie_id, 'tt') === 0) { // IMDb ID starts with 'tt'
             'release_year' => $data['Year'],
             'description' => $data['Plot'],
             'poster' => $data['Poster'],
+            'director' => $data['Director'] ?? '',
+            'actor' => $data['Actors'] ?? '',
+            'writer' => $data['Writer'] ?? '',
             'avg_rating' => 0,
             'total_ratings' => 0
+
+
         ];
     }
 }
@@ -54,6 +59,7 @@ $user_role = $_SESSION['role'] ?? "guest";
 </head>
 
 <body>
+    <a href="javascript:history.back()" class="btn-back">⬅ Back</a>
     <?php
 
     $poster = $movie['poster'] ?? '';
@@ -97,16 +103,17 @@ $user_role = $_SESSION['role'] ?? "guest";
 
                     <?php
                     if ($total_ratings > 0) {
-                        echo "&#9733; $average_rating ($total_ratings ratings)";
+                        echo "&#9733; $average_rating. ratings ";
+                        // echo "($total_ratings ratings)";
                     } else {
                         echo "&#9733; No ratings yet";
                     }
                     ?>
                 </p>
             <?php endif; ?>
-            <?php if (!empty($movie['stars'])): ?>
+            <?php if (!empty($movie['writer'])): ?>
 
-                <p><strong>Stars:</strong><?php echo $movie['stars']; ?></p>
+                <p><strong>Writers:</strong><?php echo $movie['writer']; ?></p>
             <?php endif; ?>
             <?php if ($user_role === 'admin' && !$is_api_movie): ?>
                 <a href="../admin/edit_movie.php?id=<?php echo $movie_id; ?>" class="btn-edit">Edit Movie</a>

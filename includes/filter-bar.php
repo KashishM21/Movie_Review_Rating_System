@@ -5,9 +5,9 @@ ini_set("display_errors", 1);
 $selectedYear = $_GET['year'] ?? '';
 $selectedRating = $_GET['rating'] ?? '';
 $selectedGenre = $_GET['genre'] ?? '';
+$selectedTitle = $_GET['title'] ?? '';
 ?>
 <link rel="stylesheet" href="../assets/css/filter-bar.css">
-
 <div class="top-filter-bar">
     <div class="left-filters">
         <span class="label">BROWSE BY</span>
@@ -21,7 +21,6 @@ $selectedGenre = $_GET['genre'] ?? '';
             }
             ?>
         </select>
-
         <select name="rating">
             <option value="">Rating</option>
             <?php
@@ -31,7 +30,6 @@ $selectedGenre = $_GET['genre'] ?? '';
             }
             ?>
         </select>
-
         <input list="genreList" name="genre" placeholder="Genre" value="<?= htmlspecialchars($selectedGenre) ?>">
 
         <datalist id="genreList">
@@ -42,23 +40,20 @@ $selectedGenre = $_GET['genre'] ?? '';
             }
             ?>
         </datalist>
-
-        <!-- 🔍 Search Button -->
+        <input type="text" name="title" placeholder="Search by Title" value="<?= htmlspecialchars($selectedTitle) ?>">
         <button class="search-btn" onclick="applyFilter()">Search</button>
-
     </div>
 </div>
-
 <script>
-function applyFilter() {
-    const params = new URLSearchParams();
+    function applyFilter() {
+        const params = new URLSearchParams();
+        // document.querySelectorAll('.left-filters select, .left-filters input[list]').forEach(el => {
+                document.querySelectorAll('.left-filters select, .left-filters input').forEach(el => {
+            if (el.value.trim() !== "") {
+                params.set(el.name, el.value.trim());
+            }
+        });
 
-    document.querySelectorAll('.left-filters select, .left-filters input[list]').forEach(el => {
-        if (el.value.trim() !== "") {
-            params.set(el.name, el.value.trim());
-        }
-    });
-
-    window.location.search = params.toString();
-}
+        window.location.search = params.toString();
+    }
 </script>

@@ -63,28 +63,41 @@ include "../includes/header.php";
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Login</title>
 <link rel="stylesheet" href="../assets/css/form_style.css">
+
+<!-- SweetAlert CDN -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </head>
 
 <body>
 
 <div class="page-content">
     <div class="form-container">
+
         <?php if (!empty($error)): ?>
-    <div class="flash-message" style="background-color:red; color:white; padding:10px; margin-bottom:15px;">
-        <?= htmlspecialchars($error) ?>
-    </div>
-<?php elseif (!empty($success)): ?>
-    <div class="flash-message" style="background-color:green; color:white; padding:10px; margin-bottom:15px;">
-        <?= htmlspecialchars($success) ?>
-    </div>
+            <script>
+            Swal.fire({
+                title: "Login Failed!",
+                text: "<?= htmlspecialchars($error) ?>",
+                icon: "error",
+                confirmButtonText: "OK"
+            });
+            </script>
+        <?php elseif (!empty($success)): ?>
+            <script>
+            Swal.fire({
+                title: "Login Successful!",
+                text: "Redirecting...",
+                icon: "success",
+                timer: 2000,
+                showConfirmButton: false
+            });
 
-    <script>
-        setTimeout(() => {
-            window.location.href = <?= json_encode($redirectUrl) ?>;
-        },);
-    </script>
-<?php endif; ?>
-
+            setTimeout(() => {
+                window.location.href = "<?= $redirectUrl ?>";
+            }, 2100);
+            </script>
+        <?php endif; ?>
 
         <h2>Login Form</h2>
 

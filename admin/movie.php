@@ -65,6 +65,12 @@ include "../includes/header.php";
             </select>
 
             <br><br>
+            <label for="director">Director:</label><br>
+            <input type="text" name="director" placeholder="Enter name"> <br><br>
+            <label for="actor">Actors:</label><br>
+            <input type="text" name="actor" placeholder="Enter name"> <br><br>
+            <label for="">Writers:</label><br>
+            <input type="text" name="writer" placeholder="Enter name"> <br><br>
 
 
             <label>Poster Image</label>

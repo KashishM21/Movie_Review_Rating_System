@@ -4,11 +4,8 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 include "session.php";
 ?>
-
-
 <link rel="stylesheet" href="../assets/css/style.css">
 <link rel="shortcut icon" href="../assets/images/ratemymovie.png" type="image/x-icon">
-
 <?php
 $currentPage = basename($_SERVER['PHP_SELF']);
 ?>
@@ -17,22 +14,20 @@ $currentPage = basename($_SERVER['PHP_SELF']);
         <div class="head">
             <a href="/project/index.php" class="logo">
                 <img src="/project/assets/images/RateMyMovie211.png" alt="RateMyMovie">
-
             </a>
         </div>
         <div class="head">
             <div class="nav-bar">
-                <a href=# class="nav-item">Home</a>
+                <a href="/project/index.php" class="nav-item">Home</a>
                 <a href="/project/film/films.php"
-                        class="nav-item <?= $currentPage == 'films.php' ? 'active' : '' ?>">
-                        Film
-                    </a>
-
-                     <a href="/project/film/new_released.php"
-                        class="nav-item contact-link<?= $currentPage == 'new_released.php' ? 'active' : '' ?>">
+                    class="nav-item <?= $currentPage == 'films.php' ? 'active' : '' ?>">
+                    Film
+                </a>
+                <a href="/project/film/new_released.php"
+                    class="nav-item contact-link<?= $currentPage == 'new_released.php' ? 'active' : '' ?>">
                     New Release
-                    </a>
-                     <a href="#contact" class="nav-item contact-link ">Contact</a>
+                </a>
+                <a href="#contact" class="nav-item contact-link ">Contact</a>
                 <?php
                 if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
                     <a href="/project/admin/movie.php" class="nav-item ">Add Movies</a>
@@ -69,7 +64,6 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </header>
@@ -86,18 +80,17 @@ $currentPage = basename($_SERVER['PHP_SELF']);
             if (!e.target.closest(".profile-container")) {
                 dropdown.style.display = "none";
             }
-            
+
         });
-         document.addEventListener("click", (e) => {
-        const searchBox = document.getElementById("apiSearch");
-        const resultsBox = document.getElementById("apiResults");
+        document.addEventListener("click", (e) => {
+            const searchBox = document.getElementById("apiSearch");
+            const resultsBox = document.getElementById("apiResults");
 
-        if (!e.target.closest("#apiSearch") && !e.target.closest("#apiResults")) {
-            resultsBox.style.display = "none";
-        }
+            if (!e.target.closest("#apiSearch") && !e.target.closest("#apiResults")) {
+                resultsBox.style.display = "none";
+            }
+        });
     });
-    });
-
     function searchAPI() {
         let query = document.getElementById("apiSearch").value.trim();
         let resultBox = document.getElementById("apiResults");
@@ -107,7 +100,6 @@ $currentPage = basename($_SERVER['PHP_SELF']);
             resultBox.style.display = "none";
             return;
         }
-
         fetch(`https://www.omdbapi.com/?s=${encodeURIComponent(query)}&apikey=b04d0cf`)
             .then(response => response.json())
             .then(data => {
@@ -126,7 +118,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                     resultBox.innerHTML = html;
                     resultBox.style.display = "block";
                 } else {
-                    resultBox.innerHTML = "<p>No movies found</p>";
+                    resultBox.innerHTML = '<p style="color: red; font-weight: bold;">No movies found</p>';
                     resultBox.style.display = "block";
                 }
             })
@@ -137,4 +129,3 @@ $currentPage = basename($_SERVER['PHP_SELF']);
             });
     }
 </script>
-

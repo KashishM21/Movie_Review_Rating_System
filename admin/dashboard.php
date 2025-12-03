@@ -25,7 +25,7 @@ ini_set("display_errors", 1);
     while ($g = $genres->fetch_assoc()) {
         $genre = $g['genre'];
 
-        $movies = $mysqli->query("SELECT * FROM movie WHERE genre='$genre' ORDER BY id DESC");
+        $movies = $mysqli->query("SELECT * FROM movie WHERE genre='$genre' ORDER BY id ASC");
     ?>
 
         <div class="genre-block">

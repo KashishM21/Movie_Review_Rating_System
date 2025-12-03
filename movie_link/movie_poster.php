@@ -20,7 +20,7 @@ ini_set("display_errors", 1);
 
         <?php
         $genres = $mysqli->query("SELECT DISTINCT genre FROM movie ORDER BY genre ASC");
-
+// $g-> conatin enre data
         while ($g = $genres->fetch_assoc()) {
             $genre = $g['genre'];
             $movies = $mysqli->query("SELECT id, title, poster, release_year FROM movie WHERE genre='$genre' ORDER BY id ASC");
@@ -30,6 +30,7 @@ ini_set("display_errors", 1);
 
                 <button class="prev-btn" onclick="scrollRow(this, -1)">&#10094;</button>
                 <div class="movie-row">
+                    <!-- $m conatin movie data as an array -->
                     <?php while ($m = $movies->fetch_assoc()) {
                         $stmt = $mysqli->prepare("SELECT AVG(rating) AS avg_rating, COUNT(*) AS total_ratings FROM reviews WHERE movie_id = ?");
                         $stmt->bind_param("i", $m['id']);
@@ -64,6 +65,7 @@ ini_set("display_errors", 1);
     </section>
     <script>
         function scrollRow(btn, direction) {
+            // btn.closest('.genre-block')= find current genre section
             const genreBlock = btn.closest('.genre-block');
             const row = genreBlock.querySelector('.movie-row');
 

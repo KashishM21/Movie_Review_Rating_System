@@ -2,13 +2,13 @@
 <footer>
     <div class="footer">
         <div class="footer-container">
-        <div class="footer-section">
-            <div id="about">
-                <a href="/project/includes/about.php">
-                    <h3>About </h3>
-                </a>
+            <div class="footer-section">
+                <div id="about">
+                    <a href="/project/includes/about.php">
+                        <h3>About </h3>
+                    </a>
+                </div>
             </div>
-        </div>
         </div>
         <div class="footer-container">
             <div class="footer-section">
@@ -39,6 +39,7 @@
                     <p><img src="/project/assets/images/thriller/map-marker.png" alt="logo" class="image">Address: Mohali,Punjab,India</p>
                 </div>
             </div>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d214.39491866570967!2d76.68847027864484!3d30.709439744443753!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390fef14829cd74d%3A0x2e82a0ccfea177ea!2sMind2Web!5e0!3m2!1sen!2sin!4v1764760809901!5m2!1sen!2sin" width="300" height="150" style="border:0;"  border-radius=8px allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
         <div class="footer-bottom">
             <p>&copy;2025 RateMyMovie. All rights reserved.</p>

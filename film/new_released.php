@@ -10,7 +10,7 @@ include "../includes/filter-bar.php";
 $year   = $_GET['year'] ?? '';
 $genre  = $_GET['genre'] ?? '';
 $rating = $_GET['rating'] ?? '';
-$search = $_GET['search'] ?? '';
+$search = $_GET['title'] ?? '';
 
 $results_per_page = 15;
 $page = $_GET['page'] ?? 1;
@@ -76,7 +76,7 @@ $stmt->bind_param($types2, ...$params2);
 $stmt->execute();
 $result = $stmt->get_result();
 
-echo "<h1 class='page-title' style='text-align:center;'>New Releases</h1>";
+echo "<h1 class='page-title' style='text-align:center;'>&#10024;New Releases &#10024;</h1>";
 
 
 if ($result->num_rows > 0) {
