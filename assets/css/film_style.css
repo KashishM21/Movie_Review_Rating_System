@@ -50,30 +50,7 @@ body {
     color: #000;
 }
 
-@media (max-width: 768px) {
-    .movie img {
-        height: 200px;
-    }
-}
 
-@media (max-width: 480px) {
-    .movies-container {
-        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-        gap: 15px;
-    }
-
-    .movie img {
-        height: 180px;
-    }
-
-    .movie h3 {
-        font-size: 14px;
-    }
-
-    .movie p {
-        font-size: 12px;
-    }
-}
 
 .pagination-links {
     text-align: center;

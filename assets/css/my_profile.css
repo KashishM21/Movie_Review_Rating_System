@@ -1,0 +1,76 @@
+/* Container for all user reviews */
+.user-reviews-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* Individual review box/card */
+.user-review-box {
+    background-color: #000000;
+    border: 1px solid #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    width: 220px;
+    padding: 15px;
+    text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+/* Hover effect */
+.user-review-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* Movie poster image */
+.user-review-box img {
+    width: 150px;
+    height: 225px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+/* Movie title */
+.user-review-box h3 {
+    font-size: 1.1rem;
+    margin: 5px 0;
+    color: #f5a623;
+}
+
+/* Genre and year */
+.user-review-box p {
+    margin: 3px 0;
+    font-size: 0.9rem;
+    color: #ffffff;
+}
+
+/* Rating stars */
+.user-review-box p:nth-child(5) { /* 5th p is rating, adjust if needed */
+    color: #f5a623;
+    font-weight: bold;
+}
+
+/* Review text */
+.user-review-box p:nth-child(6) { /* review text */
+    font-size: 0.85rem;
+    color: #ffffff;
+    margin-top: 5px;
+}
+
+/* Review date */
+.user-review-box p:last-child {
+    font-size: 0.75rem;
+    color: #ffffff;
+}
+
+/* Page title */
+h1 {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 2rem;
+    color: #d68101;
+}

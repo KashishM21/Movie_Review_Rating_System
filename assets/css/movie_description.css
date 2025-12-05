@@ -110,34 +110,7 @@ body {
 .btn-delete:hover {
     background: #cc0000;
 }
-@media (max-width: 768px) {
 
-    .movie-details {
-        flex-direction: column;
-        text-align: center;
-        padding: 20px;
-    }
-
-    .movie-poster {
-        width: 100%;
-        height: auto;
-        margin: auto;
-    }
-
-    .movie-info {
-        text-align: left;
-        padding: 10px;
-    }
-
-    .movie-info p {
-        flex-direction: column;
-        gap: 3px;
-    }
-
-    .movie-info strong {
-        min-width: auto;
-    }
-}
 
 .login-box {
     margin: 35px auto;
@@ -209,7 +182,13 @@ body {
 }
 
 .rate-section h2 {
-    margin-bottom: 15px;
+    font-size: 28px;             /* Slightly larger font */
+    color: #f6a31a;              /* Golden accent color */
+    text-align: center;           /* Center the text */
+    margin-bottom: 25px;          /* Space below the heading */
+    letter-spacing: 1px;          /* Spacing between letters */
+    text-shadow: 0 3px 8px rgba(246, 163, 26, 0.4); /* Soft glowing effect */
+    font-weight: 700;             /* Bold */
 }
 
 .rate-section select,
@@ -247,7 +226,7 @@ body {
 
 .reviews {
     max-width: 900px;
-    margin: 40px auto;
+margin: 0px auto;
 }
 
 .reviews h2 {
@@ -289,3 +268,5 @@ color: #f6a31a;}
 .star:hover ~ .star {
     color: gold;
 }
+
+

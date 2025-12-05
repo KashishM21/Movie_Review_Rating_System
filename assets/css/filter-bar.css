@@ -50,26 +50,6 @@
     box-shadow: 0 0 8px rgba(255, 176, 59, 0.4);
 }
 
-
-@media screen and (max-width: 600px) {
-    .top-filter-bar {
-        flex-direction: column;
-        gap: 15px;
-        text-align: center;
-    }
-
-    .left-filters {
-        flex-direction: column;
-    }
-
-    .right-search {
-        flex-direction: column;
-    }
-
-    .right-search input {
-        width: 100%;
-    }
-}
 .search-btn {
     padding: 8px 16px;
     background:#d68101;

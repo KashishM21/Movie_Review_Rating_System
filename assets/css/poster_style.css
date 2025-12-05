@@ -113,23 +113,6 @@ body {
     width: 220px;
 }
 
-@media (max-width: 1024px) {
-    .movie-card {
-        flex: 1 1 150px;
-    }
-}
-
-@media (max-width: 768px) {
-    .movie-card {
-        flex: 1 1 45%;
-    }
-}
-
-@media (max-width: 480px) {
-    .movie-card {
-        flex: 1 1 100%;
-    }
-}
 
 .banner-slides {
     display: flex;
