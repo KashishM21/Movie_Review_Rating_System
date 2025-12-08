@@ -37,7 +37,6 @@ if (!$movie && strpos($movie_id, 'tt') === 0) {
 }
 
 $is_api_movie = !isset($movie['id']);  // Flag to differentiate API vs local movies
-
 if (!$movie) {
     echo "<h2 style='color:red;'>Movie not found.</h2>";
     exit; // Stop if movie not found locally or via API
@@ -87,7 +86,10 @@ if (empty($poster) || $poster === 'N/A') {
 ?>
 
 <section class="movie-details">
-    <img src="<?= $poster_url ?>" class="movie-poster">
+<img src="<?= htmlspecialchars($poster_url); ?>"
+     class="movie-poster"
+     onerror="this.src='/project/assets/images/default-poster.png';">
+    
 
     <div class="movie-info">
         <h1><?= $movie['title']; ?></h1>

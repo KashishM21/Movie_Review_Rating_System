@@ -1,14 +1,14 @@
 <?php
 
 // Load session handling
-include "../includes/session.php"; 
+include "../includes/session.php";
 
 // Load database connection
-include "../includes/db.php"; 
+include "../includes/db.php";
 
 $message = "";
 
-if (isset($_POST['submit'])) {  
+if (isset($_POST['submit'])) {
 
     // Collect form inputs (trim removes extra unnecessary spaces)
     $title = trim($_POST['title']);
@@ -27,11 +27,22 @@ if (isset($_POST['submit'])) {
     // Validate if a file is uploaded correctly (UPLOAD_ERR_OK = no error)
     if (!isset($_FILES['poster']) || $_FILES['poster']['error'] !== UPLOAD_ERR_OK) {
         die("Poster upload failed!");
-    } 
+    }
 
     // Retrieve uploaded file name and temporary file path
     $file_name = $_FILES['poster']['name'];
     $file_tmp = $_FILES['poster']['tmp_name'];
+    // Max file size (2MB)
+    $max_size = 512 * 1024; // 512 KB
+
+    if ($_FILES['poster']['size'] > $max_size) {
+        $error = "Poster image must be less than 512 KB!";
+    }
+
+    if (!empty($error)) {
+        echo "<p style='color:red;'>$error</p>";
+        exit;
+    }
 
     // Allowed file extensions
     $allowed_ext = ['jpg', 'jpeg', 'png'];
@@ -93,4 +104,3 @@ if (isset($_POST['submit'])) {
         $message = "Error inserting movie: " . $mysqli->error;
     }
 }
-?>

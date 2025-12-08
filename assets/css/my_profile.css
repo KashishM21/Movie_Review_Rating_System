@@ -74,3 +74,7 @@ h1 {
     font-size: 2rem;
     color: #d68101;
 }
+
+.user-review-box-link{
+text-decoration: none;
+}

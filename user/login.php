@@ -106,7 +106,7 @@ include "../includes/header.php";
 
             setTimeout(() => {
                 window.location.href = "<?= $redirectUrl ?>";
-            }, 2100);
+            }, 1000);
             </script>
         <?php endif; ?>
 

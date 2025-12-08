@@ -15,7 +15,7 @@ ini_set("display_errors", 1);
 
 <body>
     <section id="main-section">
-        <h1 class="page-title">Latest Movies</h1>
+        <h1 class="page-title">Movies</h1>
 
         <?php
         // Fetch all distinct genres from the movie table

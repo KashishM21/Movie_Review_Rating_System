@@ -18,13 +18,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($name === '' || $email === '' || $password === '' || $confirm_password === '') {
         $error = "All fields are required.";
+    } elseif (!preg_match("/^[a-zA-Z ]+$/", $name)) {
+        $error = "Name can only contain letters and spaces.";
     }
 
     // Email format using regex
     elseif (!preg_match('/^[a-zA-Z0-9._]+@[a-zA-Z0-9.-]+\.[A-Za-z]{2,}$/', $email)) {
         $error = "Invalid email format.";
+    } elseif (strlen($email) > 25) {
+        $error = "Email must not exceed 25 characters.";
     }
-
     // Password match
     elseif ($password !== $confirm_password) {
         $error = "Passwords do not match.";

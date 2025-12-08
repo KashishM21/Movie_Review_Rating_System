@@ -55,25 +55,31 @@ $currentPage = basename($_SERVER['PHP_SELF']);
             <img src="/project/assets/images/thriller/user-dropdown2.png" alt="profile" class="header-image profile-toggle">
 
             <div class="profile-dropdown">
-                <?php if (isset($_SESSION['user_id'])): ?>
-                    <!-- Logged-in user -->
-                    <span class="dropdown-item">Welcome, <?= htmlspecialchars($_SESSION['name'] ?? 'User') ?></span>
-                    <a href="/project/user/logout.php" class="dropdown-item">
-                        <img src="/project/assets/images/thriller/log-out.png" class="image"> Logout
-                    </a>
+             <?php if (isset($_SESSION['user_id'])): ?>
+    <!-- Logged-in user -->
+    <span class="dropdown-item">
+        Welcome, <?= htmlspecialchars($_SESSION['name'] ?? 'User') ?>
+    </span>
 
-                    <!-- Show profile link based on role -->
-                    <?php if (($_SESSION['role'] ?? '') === 'admin' && $currentPage !== 'users_profile.php'): ?>
-                        <!-- Admin sees all users profile -->
-                        <a href="/project/admin/users_profile.php" class="dropdown-item">
-                            <img src="/project/assets/images/thriller/admin.png" class="image"> Users Profile
-                        </a>
-                    <?php elseif (($_SESSION['role'] ?? '') !== 'admin' && $currentPage !== 'my_profile.php'): ?>
-                        <!-- Regular user sees own profile -->
-                        <a href="/project/user/my_profile.php" class="dropdown-item">
-                            <img src="/project/assets/images/thriller/log-out.png" class="image"> My Profile
-                        </a>
-                    <?php endif; ?>
+    <!-- Show profile link based on role -->
+    <?php if (($_SESSION['role'] ?? '') === 'admin' && $currentPage !== 'users_profile.php'): ?>
+        <!-- Admin sees all users profile -->
+        <a href="/project/admin/users_profile.php" class="dropdown-item">
+            <img src="/project/assets/images/thriller/user1.png" class="image"> Users Profile
+        </a>
+    <?php elseif (($_SESSION['role'] ?? '') !== 'admin' && $currentPage !== 'my_profile.php'): ?>
+        <!-- Regular user sees own profile -->
+        <a href="/project/user/my_profile.php" class="dropdown-item">
+            <img src="/project/assets/images/thriller/user1.png" class="image"> My Profile
+        </a>
+    <?php endif; ?>
+
+    <!-- Logout at the end -->
+    <a href="/project/user/logout.php" class="dropdown-item logout-link">
+        <img src="/project/assets/images/thriller/log-out.png" class="image"> Logout
+    </a>
+
+
 
                 <?php else: ?>
                     <!-- User is not logged in: Show login/register links -->
